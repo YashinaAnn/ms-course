@@ -1,6 +1,5 @@
 package com.learners.inventoryservice.service;
 
-import com.learners.inventoryservice.domain.Inventory;
 import com.learners.inventoryservice.mapper.InventoryMapper;
 import com.learners.inventoryservice.model.dto.InventoryDto;
 import com.learners.inventoryservice.repository.InventoryRepository;
