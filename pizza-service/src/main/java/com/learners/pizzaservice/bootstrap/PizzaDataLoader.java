@@ -1,7 +1,7 @@
 package com.learners.pizzaservice.bootstrap;
 
 import com.learners.pizzaservice.entity.Pizza;
-import com.learners.pizzaservice.model.PizzaType;
+import com.learners.model.dto.PizzaType;
 import com.learners.pizzaservice.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

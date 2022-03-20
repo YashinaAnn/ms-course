@@ -2,7 +2,7 @@ package com.learners.inventoryservice.integration;
 
 import com.learners.inventoryservice.controller.InventoryController;
 import com.learners.inventoryservice.domain.Inventory;
-import com.learners.inventoryservice.model.dto.InventoryDto;
+import com.learners.model.dto.InventoryDto;
 import com.learners.inventoryservice.repository.InventoryRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package com.learners.pizzaservice.service;
 
 import com.learners.pizzaservice.BaseTest;
-import com.learners.pizzaservice.model.InventoryDto;
+import com.learners.model.dto.InventoryDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;

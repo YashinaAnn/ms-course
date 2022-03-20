@@ -1,7 +1,7 @@
 package com.learners.pizzaservice.service.impl;
 
 import com.learners.pizzaservice.config.AppsConfigs;
-import com.learners.pizzaservice.model.InventoryDto;
+import com.learners.model.dto.InventoryDto;
 import com.learners.pizzaservice.service.InventoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,9 +31,11 @@ public class InventoryServiceImpl implements InventoryService {
                     HttpMethod.GET, null,
                     new ParameterizedTypeReference<List<InventoryDto>>(){});
 
-            return Objects.requireNonNull(response.getBody()).stream()
+            Integer inventory = Objects.requireNonNull(response.getBody()).stream()
                     .map(InventoryDto::getInventoryOnHand)
                     .reduce(0, Integer::sum);
+            log.debug("Inventory for pizzaId {} is {}", pizzaId, inventory);
+            return inventory;
 
         } catch (RestClientException e) {
             log.error("Error while getting inventory for product with id {}. Inventory service error: {}", pizzaId, e.getMessage());

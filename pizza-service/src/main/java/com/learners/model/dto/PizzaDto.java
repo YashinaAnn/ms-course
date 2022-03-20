@@ -1,4 +1,4 @@
-package com.learners.pizzaservice.model;
+package com.learners.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder(toBuilder = true)
+@Builder
 public class PizzaDto implements Serializable {
 
     @Null

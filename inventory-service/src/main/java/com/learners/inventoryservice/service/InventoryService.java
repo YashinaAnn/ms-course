@@ -1,6 +1,6 @@
 package com.learners.inventoryservice.service;
 
-import com.learners.inventoryservice.model.dto.InventoryDto;
+import com.learners.model.dto.InventoryDto;
 
 import java.util.List;
 

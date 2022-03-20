@@ -1,4 +1,4 @@
-package com.learners.inventoryservice.model.dto;
+package com.learners.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

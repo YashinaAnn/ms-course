@@ -1,7 +1,7 @@
 package com.learners.pizzaservice.service;
 
-import com.learners.pizzaservice.model.PizzaDto;
-import com.learners.pizzaservice.model.PizzaListDto;
+import com.learners.model.dto.PizzaDto;
+import com.learners.model.dto.PizzaListDto;
 import org.springframework.data.domain.PageRequest;
 
 public interface PizzaService {

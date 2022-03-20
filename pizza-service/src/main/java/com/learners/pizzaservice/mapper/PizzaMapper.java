@@ -1,7 +1,7 @@
 package com.learners.pizzaservice.mapper;
 
 import com.learners.pizzaservice.entity.Pizza;
-import com.learners.pizzaservice.model.PizzaDto;
+import com.learners.model.dto.PizzaDto;
 import org.mapstruct.DecoratedWith;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;

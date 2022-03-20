@@ -25,5 +25,5 @@ spring:
     username: local
     password: root
   artemis:
-    username: artemis
+    user: artemis
     password: simetraehcapa

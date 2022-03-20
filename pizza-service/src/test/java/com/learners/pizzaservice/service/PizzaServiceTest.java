@@ -2,7 +2,7 @@ package com.learners.pizzaservice.service;
 
 import com.learners.pizzaservice.BaseTest;
 import com.learners.pizzaservice.entity.Pizza;
-import com.learners.pizzaservice.model.PizzaDto;
+import com.learners.model.dto.PizzaDto;
 import com.learners.pizzaservice.repository.PizzaRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

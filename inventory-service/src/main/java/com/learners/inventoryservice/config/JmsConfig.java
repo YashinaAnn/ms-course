@@ -10,6 +10,8 @@ import org.springframework.jms.support.converter.MessageType;
 @Configuration
 public class JmsConfig {
 
+    public static final String INVENTORY_QUEUE = "inventory";
+
     @Bean
     public MessageConverter messageConverter(ObjectMapper mapper) {
         MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();

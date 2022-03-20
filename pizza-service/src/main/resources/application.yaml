@@ -28,7 +28,7 @@ spring:
       platform: postgresql
       mode: embedded
   artemis:
-    username: artemis
+    user: artemis
     password: simetraehcapa
 
 logging.level.com.learners.pizzaservice: debug

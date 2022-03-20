@@ -1,7 +1,7 @@
 package com.learners.inventoryservice.mapper;
 
 import com.learners.inventoryservice.domain.Inventory;
-import com.learners.inventoryservice.model.dto.InventoryDto;
+import com.learners.model.dto.InventoryDto;
 import org.mapstruct.Mapper;
 
 @Mapper

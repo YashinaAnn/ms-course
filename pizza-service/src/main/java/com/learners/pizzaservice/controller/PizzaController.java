@@ -1,8 +1,8 @@
 package com.learners.pizzaservice.controller;
 
 import com.learners.pizzaservice.config.AppsConfigs;
-import com.learners.pizzaservice.model.PizzaDto;
-import com.learners.pizzaservice.model.PizzaListDto;
+import com.learners.model.dto.PizzaDto;
+import com.learners.model.dto.PizzaListDto;
 import com.learners.pizzaservice.service.PizzaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;

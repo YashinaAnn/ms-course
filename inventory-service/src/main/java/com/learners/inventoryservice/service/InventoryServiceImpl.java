@@ -1,7 +1,7 @@
 package com.learners.inventoryservice.service;
 
 import com.learners.inventoryservice.mapper.InventoryMapper;
-import com.learners.inventoryservice.model.dto.InventoryDto;
+import com.learners.model.dto.InventoryDto;
 import com.learners.inventoryservice.repository.InventoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

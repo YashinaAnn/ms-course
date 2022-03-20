@@ -1,7 +1,7 @@
 package com.learners.inventoryservice.controller;
 
 import com.learners.inventoryservice.exception.PizzaNotFoundException;
-import com.learners.inventoryservice.model.dto.ErrorDto;
+import com.learners.model.dto.ErrorDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;

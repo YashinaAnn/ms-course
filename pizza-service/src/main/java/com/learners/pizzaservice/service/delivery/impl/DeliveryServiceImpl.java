@@ -1,7 +1,7 @@
 package com.learners.pizzaservice.service.delivery.impl;
 
 import com.learners.pizzaservice.config.AppsConfigs;
-import com.learners.pizzaservice.events.PizzaDeliveryEvent;
+import com.learners.model.events.PizzaDeliveryEvent;
 import com.learners.pizzaservice.mapper.PizzaMapper;
 import com.learners.pizzaservice.repository.PizzaRepository;
 import com.learners.pizzaservice.service.delivery.DeliveryService;
@@ -12,7 +12,7 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import static com.learners.pizzaservice.service.delivery.impl.DeliveryEventListenerImpl.DELIVERY_REQUEST_QUEUE;
+import static com.learners.pizzaservice.config.JmsConfig.DELIVERY_REQUEST_QUEUE;
 
 @Service
 @Slf4j
@@ -26,7 +26,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     private final AppsConfigs configs;
 
     @Override
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 30000)
     public void checkInventory() {
         log.debug("Checking pizza inventory!");
         pizzaRepository.findAll().forEach(

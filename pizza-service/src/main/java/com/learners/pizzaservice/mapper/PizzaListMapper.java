@@ -1,8 +1,8 @@
 package com.learners.pizzaservice.mapper;
 
 import com.learners.pizzaservice.entity.Pizza;
-import com.learners.pizzaservice.model.PizzaDto;
-import com.learners.pizzaservice.model.PizzaListDto;
+import com.learners.model.dto.PizzaDto;
+import com.learners.model.dto.PizzaListDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;

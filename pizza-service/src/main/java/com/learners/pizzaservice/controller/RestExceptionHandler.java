@@ -1,11 +1,8 @@
 package com.learners.pizzaservice.controller;
 
-import com.learners.pizzaservice.exception.InventoryServiceException;
 import com.learners.pizzaservice.exception.PizzaNotFoundException;
 import com.learners.pizzaservice.exception.PizzaServiceException;
-import com.learners.pizzaservice.model.ErrorDto;
-import org.springframework.boot.context.properties.bind.BindException;
-import org.springframework.boot.context.properties.bind.validation.BindValidationException;
+import com.learners.model.dto.ErrorDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

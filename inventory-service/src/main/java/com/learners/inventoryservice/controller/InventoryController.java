@@ -1,6 +1,6 @@
 package com.learners.inventoryservice.controller;
 
-import com.learners.inventoryservice.model.dto.InventoryDto;
+import com.learners.model.dto.InventoryDto;
 import com.learners.inventoryservice.service.InventoryService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

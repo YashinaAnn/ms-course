@@ -1,6 +1,6 @@
 package com.learners.pizzaservice.service.delivery;
 
-import com.learners.pizzaservice.events.PizzaDeliveryEvent;
+import com.learners.model.events.PizzaDeliveryEvent;
 
 public interface DeliveryEventListener {
 
