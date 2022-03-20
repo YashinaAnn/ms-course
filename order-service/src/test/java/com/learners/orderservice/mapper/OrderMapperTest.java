@@ -6,14 +6,19 @@ import com.learners.orderservice.entity.Order;
 import com.learners.orderservice.entity.OrderLine;
 import com.learners.orderservice.model.dto.OrderDto;
 import com.learners.orderservice.model.dto.OrderLineDto;
+import com.learners.orderservice.model.dto.PizzaDto;
 import com.learners.orderservice.repository.CustomerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 public class OrderMapperTest extends BaseTest {
 
@@ -21,6 +26,8 @@ public class OrderMapperTest extends BaseTest {
     private OrderMapper orderMapper;
     @Autowired
     private CustomerRepository customerRepository;
+    @MockBean
+    RestTemplate restTemplate;
 
     @Test
     public void testOrderToDto() {
@@ -30,6 +37,11 @@ public class OrderMapperTest extends BaseTest {
         Set<OrderLine> orderLines = new HashSet<>();
         orderLines.add(orderLine);
         order.setOrderLines(orderLines);
+
+        when(restTemplate.getForEntity(
+                configs.getPizzaServiceHost() + configs.getPizzaServicePath() + orderLine.getPizzaId(),
+                PizzaDto.class)
+        ).thenReturn(ResponseEntity.ok(getPizza(orderLine.getPizzaId())));
 
         OrderDto dto = orderMapper.orderToDto(order);
 
@@ -59,5 +71,12 @@ public class OrderMapperTest extends BaseTest {
         assertThat(orderLine.getOrder()).isEqualTo(order);
         assertThat(orderLine.getOrderQty()).isEqualTo(orderLineDto.getQuantity());
         assertThat(orderLine.getPizzaId()).isEqualTo(orderLineDto.getPizzaId());
+    }
+
+    private PizzaDto getPizza(long pizzaId) {
+        return PizzaDto.builder()
+                .id(pizzaId)
+                .name("Test Pizza")
+                .build();
     }
 }

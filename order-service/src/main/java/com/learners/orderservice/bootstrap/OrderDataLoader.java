@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+//@Profile("demo")
 @Component
 @RequiredArgsConstructor
 public class OrderDataLoader implements CommandLineRunner {

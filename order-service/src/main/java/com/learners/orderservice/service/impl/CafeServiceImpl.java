@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+//@Profile("demo")
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -24,6 +25,7 @@ public class CafeServiceImpl implements CafeService {
     private final OrderController orderController;
     private final CustomerRepository customerRepository;
     private final PizzaService pizzaService;
+    private final Random random = new Random();
 
     @Override
     @Scheduled(fixedRate = 5000)
@@ -37,16 +39,11 @@ public class CafeServiceImpl implements CafeService {
     }
 
     private Customer getCustomer() {
-        Iterator<Customer> iterator = customerRepository.findAll().iterator();
-        if (iterator.hasNext()) {
-            return iterator.next();
-        }
-        throw new IllegalArgumentException("Customers not found in DB");
+        return randomEntity(customerRepository.findAll());
     }
 
     private PizzaDto getPizza() {
-        List<PizzaDto> list = pizzaService.getPizzaList().getContent();
-        return list.get(new Random().nextInt(list.size() - 1));
+        return randomEntity(pizzaService.getPizzaList().getContent());
     }
 
     private OrderDto formatOrder(PizzaDto pizza) {
@@ -62,5 +59,9 @@ public class CafeServiceImpl implements CafeService {
                 .orderStatus(OrderStatusEnum.NEW)
                 .orderLines(orderLines)
                 .build();
+    }
+
+    private <T> T randomEntity(List<T> list) {
+        return list.get(random.nextInt(list.size() - 1));
     }
 }

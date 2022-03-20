@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
+//@Profile("demo")
 @Component
 public class PizzaDataLoader implements CommandLineRunner {
 
