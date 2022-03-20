@@ -1,6 +1,8 @@
 app.config:
   default-page: 0
   default-size: 50
+  minimal-quantity: 10
+  quantity-to-deliver: 50
   inventory-service-host: "http://localhost:8082"
   inventory-path: "/api/v1/inventory/"
 
@@ -28,4 +30,6 @@ spring:
   artemis:
     username: artemis
     password: simetraehcapa
+
+logging.level.com.learners.pizzaservice: debug
 

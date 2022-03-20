@@ -11,6 +11,8 @@ public class AppsConfigs {
 
     private int defaultPage;
     private int defaultSize;
+    private int minimalQuantity;
+    private int quantityToDeliver;
 
     private String inventoryServiceHost;
     private String inventoryPath;
