@@ -14,6 +14,7 @@ public class JmsConfig {
     public MessageConverter messageConverter(ObjectMapper mapper) {
         MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
         converter.setObjectMapper(mapper);
+        converter.setTypeIdPropertyName("_type");
         converter.setTargetType(MessageType.TEXT);
         return converter;
     }
