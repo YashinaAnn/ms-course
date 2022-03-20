@@ -1,0 +1,7 @@
+app.config:
+  default-page: 0
+  default-size: 50
+  pizza-service-host: "http://localhost:8080"
+  pizza-service-path: "/api/v1/pizza/"
+
+server.port: 8081
