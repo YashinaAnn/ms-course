@@ -24,3 +24,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/pizza_db
     username: local
     password: root
+  artemis:
+    username: artemis
+    password: simetraehcapa

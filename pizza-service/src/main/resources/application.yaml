@@ -25,4 +25,7 @@ spring:
     init:
       platform: postgresql
       mode: embedded
+  artemis:
+    username: artemis
+    password: simetraehcapa
 
