@@ -1,0 +1,28 @@
+app.config:
+  default-page: 0
+  default-size: 50
+  inventory-service-host: "http://localhost:8082"
+  inventory-path: "/api/v1/inventory/"
+
+spring:
+  cache:
+    jcache:
+      config: "classpath:ehcache.xml"
+  datasource:
+    url: jdbc:postgresql://localhost:5432/pizza_db
+    username: local
+    password: root
+  jpa:
+    database: postgresql
+    open-in-view: true
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQL95Dialect
+  sql:
+    init:
+      platform: postgresql
+      mode: embedded
+
