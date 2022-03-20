@@ -27,3 +27,5 @@ spring:
   artemis:
     user: artemis
     password: simetraehcapa
+
+logging.level.com.learners: debug

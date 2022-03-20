@@ -12,7 +12,6 @@ import com.learners.orderservice.repository.CustomerRepository;
 import com.learners.orderservice.repository.OrderRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
@@ -49,6 +48,17 @@ public class OrderIntegrationPositiveTest extends BaseTest {
         when(restTemplate.getForEntity(configs.getPizzaServiceHost() + configs.getPizzaServicePath() + PIZZA_ID,
                 PizzaDto.class)
         ).thenReturn(new ResponseEntity<>(pizzaDto, HttpStatus.OK));
+    }
+
+    @Test
+    public void testGetOrderById() {
+        Customer customer = customerRepository.save(getValidCustomer());
+        Order order1 = saveOrder(customer);
+
+        ResponseEntity<OrderDto> response = orderController.getOrderById(customer.getId(), order1.getId());
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody()).isEqualTo(orderMapper.orderToDto(order1));
     }
 
     @Test
