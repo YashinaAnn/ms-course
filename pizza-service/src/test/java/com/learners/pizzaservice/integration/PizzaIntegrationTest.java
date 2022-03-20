@@ -135,6 +135,20 @@ public class PizzaIntegrationTest extends BaseTest {
         assertThat(response.getBody().getInventoryOnHand()).isEqualTo(MOCKED_INVENTORY);
     }
 
+    @Test
+    public void testGetById_WithInventory_NoInventory() {
+        when(restTemplate.exchange(configs.getInventoryPath() + pizza1.getId(),
+                HttpMethod.GET, null,
+                new ParameterizedTypeReference<List<InventoryDto>>(){})
+        ).thenReturn(ResponseEntity.ok(Collections.emptyList()));
+
+        ResponseEntity<PizzaDto> response = controller.getById(pizza1.getId(), Optional.of(true));
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody().getInventoryOnHand()).isEqualTo(0);
+    }
+
     private void mockInventory(long pizzaId) {
         when(restTemplate.exchange(configs.getInventoryPath() + pizzaId,
                 HttpMethod.GET, null,

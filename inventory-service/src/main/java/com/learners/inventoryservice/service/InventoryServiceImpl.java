@@ -1,7 +1,6 @@
 package com.learners.inventoryservice.service;
 
 import com.learners.inventoryservice.domain.Inventory;
-import com.learners.inventoryservice.exception.PizzaNotFoundException;
 import com.learners.inventoryservice.mapper.InventoryMapper;
 import com.learners.inventoryservice.model.dto.InventoryDto;
 import com.learners.inventoryservice.repository.InventoryRepository;
@@ -20,11 +19,7 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public List<InventoryDto> getByPizzaId(Long id) {
-        List<Inventory> inventories = repository.findAllByPizzaId(id);
-        if (inventories.isEmpty()) {
-            throw new PizzaNotFoundException(id);
-        }
-        return inventories.stream()
+        return repository.findAllByPizzaId(id).stream()
                 .map(mapper::inventoryToDto)
                 .collect(Collectors.toList());
     }

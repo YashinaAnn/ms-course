@@ -1,7 +1,6 @@
 package com.learners.inventoryservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.learners.inventoryservice.exception.PizzaNotFoundException;
 import com.learners.inventoryservice.service.InventoryService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -16,8 +15,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles({"test"})
 @SpringBootTest
@@ -45,13 +44,5 @@ public class InventoryControllerTest {
 
         mvc.perform(get("/api/v1/inventory/" + ID))
                 .andExpect(status().isOk());
-    }
-
-    @Test
-    public void testGetAllByNonExistingPizzaId() throws Exception {
-        when(service.getByPizzaId(ID)).thenThrow(new PizzaNotFoundException());
-
-        mvc.perform(get("/api/v1/inventory/" + ID))
-                .andExpect(status().isBadRequest());
     }
 }

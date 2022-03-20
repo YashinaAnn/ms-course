@@ -2,7 +2,6 @@ package com.learners.inventoryservice.integration;
 
 import com.learners.inventoryservice.controller.InventoryController;
 import com.learners.inventoryservice.domain.Inventory;
-import com.learners.inventoryservice.exception.PizzaNotFoundException;
 import com.learners.inventoryservice.model.dto.InventoryDto;
 import com.learners.inventoryservice.repository.InventoryRepository;
 import org.junit.jupiter.api.Test;
@@ -15,7 +14,6 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ActiveProfiles({"test"})
 @SpringBootTest
@@ -35,11 +33,6 @@ public class InventoryIntegrationTest {
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).hasSize(2);
-    }
-
-    @Test
-    public void testGetAllByNonExistingPizzaId() {
-        assertThrows(PizzaNotFoundException.class, () -> controller.getInventoryByPizzaId(1234L));
     }
 
     private Inventory getValidInventory(long pizzaId) {
