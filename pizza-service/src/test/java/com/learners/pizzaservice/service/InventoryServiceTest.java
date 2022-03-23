@@ -36,7 +36,7 @@ public class InventoryServiceTest extends BaseTest {
                 new ParameterizedTypeReference<List<InventoryDto>>(){})
         ).thenReturn(ResponseEntity.ok(list));
 
-        assertThat(service.getInventoryByPizzaId(PIZZA_ID))
+        assertThat(service.getInventoryByPizzaId(PIZZA_ID).get())
                 .isEqualTo(list.stream().map(InventoryDto::getInventoryOnHand).reduce(0, Integer::sum));
     }
 }

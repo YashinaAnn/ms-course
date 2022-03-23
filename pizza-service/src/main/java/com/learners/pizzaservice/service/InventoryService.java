@@ -1,6 +1,8 @@
 package com.learners.pizzaservice.service;
 
+import java.util.Optional;
+
 public interface InventoryService {
 
-    Integer getInventoryByPizzaId(long pizzaId);
+    Optional<Integer> getInventoryByPizzaId(long pizzaId);
 }

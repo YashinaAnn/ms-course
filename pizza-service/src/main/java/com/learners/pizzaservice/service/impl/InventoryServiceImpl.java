@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -24,7 +25,7 @@ public class InventoryServiceImpl implements InventoryService {
     private final AppsConfigs configs;
 
     @Override
-    public Integer getInventoryByPizzaId(long pizzaId) {
+    public Optional<Integer> getInventoryByPizzaId(long pizzaId) {
         try {
             ResponseEntity<List<InventoryDto>> response = restTemplate.exchange(
                      configs.getInventoryPath() + pizzaId,
@@ -35,11 +36,11 @@ public class InventoryServiceImpl implements InventoryService {
                     .map(InventoryDto::getInventoryOnHand)
                     .reduce(0, Integer::sum);
             log.debug("Inventory for pizzaId {} is {}", pizzaId, inventory);
-            return inventory;
+            return Optional.of(inventory);
 
         } catch (RestClientException e) {
             log.error("Error while getting inventory for product with id {}. Inventory service error: {}", pizzaId, e.getMessage());
         }
-        return null;
+        return Optional.empty();
     }
 }

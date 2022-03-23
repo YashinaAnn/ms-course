@@ -19,7 +19,7 @@ public abstract class PizzaMapperDecorator extends PizzaMapper {
     public PizzaDto pizzaToDto(Pizza pizza, boolean inventoryEnabled) {
         PizzaDto dto = pizzaMapper.pizzaToDto(pizza, inventoryEnabled);
         if (inventoryEnabled) {
-            dto.setInventoryOnHand(inventoryService.getInventoryByPizzaId(pizza.getId()));
+            dto.setInventoryOnHand(inventoryService.getInventoryByPizzaId(pizza.getId()).orElse(null));
         }
         return dto;
     }

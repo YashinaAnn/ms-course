@@ -1,15 +1,16 @@
 package com.learners.pizzaservice.bootstrap;
 
-import com.learners.pizzaservice.entity.Pizza;
 import com.learners.model.dto.PizzaType;
+import com.learners.pizzaservice.entity.Pizza;
 import com.learners.pizzaservice.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
-//@Profile("demo")
+@Profile("!test")
 @Component
 public class PizzaDataLoader implements CommandLineRunner {
 
