@@ -1,8 +1,8 @@
 package com.learners.orderservice.service.impl;
 
 import com.learners.orderservice.config.AppConfigs;
-import com.learners.orderservice.model.dto.PizzaDto;
-import com.learners.orderservice.model.dto.PizzaListDto;
+import com.learners.model.dto.PizzaDto;
+import com.learners.model.dto.PizzaListDto;
 import com.learners.orderservice.service.PizzaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

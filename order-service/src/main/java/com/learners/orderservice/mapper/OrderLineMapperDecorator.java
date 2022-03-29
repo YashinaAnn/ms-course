@@ -1,8 +1,8 @@
 package com.learners.orderservice.mapper;
 
 import com.learners.orderservice.entity.OrderLine;
-import com.learners.orderservice.model.dto.OrderLineDto;
-import com.learners.orderservice.model.dto.PizzaDto;
+import com.learners.model.dto.OrderLineDto;
+import com.learners.model.dto.PizzaDto;
 import com.learners.orderservice.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

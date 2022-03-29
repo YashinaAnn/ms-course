@@ -1,6 +1,6 @@
 package com.learners.orderservice.entity;
 
-import com.learners.orderservice.model.OrderStatusEnum;
+import com.learners.model.OrderStatus;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -34,11 +34,11 @@ public class Order extends BaseEntity {
     @Fetch(FetchMode.JOIN)
     private Set<OrderLine> orderLines;
 
-    private OrderStatusEnum orderStatus = OrderStatusEnum.NEW;
+    private OrderStatus orderStatus = OrderStatus.NEW;
 
     @Builder
     public Order(Long version, LocalDateTime creationDate, LocalDateTime lastModifiedDate,
-                 UUID id, Customer customer, Set<OrderLine> orderLines, OrderStatusEnum orderStatus) {
+                 UUID id, Customer customer, Set<OrderLine> orderLines, OrderStatus orderStatus) {
         super(version, creationDate, lastModifiedDate);
         this.id = id;
         this.customer = customer;

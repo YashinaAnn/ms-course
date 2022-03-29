@@ -2,10 +2,9 @@ package com.learners.orderservice.controller;
 
 import com.learners.orderservice.exception.CustomerNotFoundException;
 import com.learners.orderservice.exception.OrderNotFoundException;
-import com.learners.orderservice.model.dto.ErrorDto;
+import com.learners.model.dto.ErrorDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

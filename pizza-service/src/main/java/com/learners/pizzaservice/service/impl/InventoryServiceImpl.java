@@ -1,7 +1,7 @@
 package com.learners.pizzaservice.service.impl;
 
 import com.learners.pizzaservice.config.AppsConfigs;
-import com.learners.model.dto.InventoryDto;
+import com.learners.model.dto.inventory.InventoryDto;
 import com.learners.pizzaservice.service.InventoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

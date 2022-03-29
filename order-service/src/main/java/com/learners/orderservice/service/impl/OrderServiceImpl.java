@@ -6,8 +6,8 @@ import com.learners.orderservice.entity.OrderLine;
 import com.learners.orderservice.exception.CustomerNotFoundException;
 import com.learners.orderservice.exception.OrderNotFoundException;
 import com.learners.orderservice.mapper.OrderMapper;
-import com.learners.orderservice.model.OrderStatusEnum;
-import com.learners.orderservice.model.dto.OrderDto;
+import com.learners.model.OrderStatus;
+import com.learners.model.dto.OrderDto;
 import com.learners.orderservice.repository.CustomerRepository;
 import com.learners.orderservice.repository.OrderLineRepository;
 import com.learners.orderservice.repository.OrderRepository;
@@ -51,7 +51,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto placeOrder(UUID customerId, OrderDto orderDto) {
         orderDto.setCustomerId(customerId);
         Order order = orderMapper.dtoToOrder(orderDto);
-        order.setOrderStatus(OrderStatusEnum.NEW);
+        order.setOrderStatus(OrderStatus.NEW);
 
         for (OrderLine orderLine: order.getOrderLines()) {
             orderLine.setOrder(order);

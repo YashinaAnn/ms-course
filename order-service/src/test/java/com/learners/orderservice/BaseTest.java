@@ -5,11 +5,12 @@ import com.learners.orderservice.config.AppConfigs;
 import com.learners.orderservice.entity.Customer;
 import com.learners.orderservice.entity.Order;
 import com.learners.orderservice.entity.OrderLine;
-import com.learners.orderservice.model.OrderStatusEnum;
-import com.learners.orderservice.model.PizzaType;
-import com.learners.orderservice.model.dto.OrderDto;
-import com.learners.orderservice.model.dto.OrderLineDto;
-import com.learners.orderservice.model.dto.PizzaDto;
+import com.learners.model.OrderStatus;
+import com.learners.model.PizzaType;
+import com.learners.model.dto.OrderDto;
+import com.learners.model.dto.OrderLineDto;
+import com.learners.model.dto.PizzaDto;
+import com.learners.orderservice.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -27,6 +28,8 @@ public class BaseTest {
     protected ObjectMapper objectMapper;
     @Autowired
     protected AppConfigs configs;
+    @Autowired
+    protected OrderRepository orderRepository;
 
     public static final long PIZZA_ID = 1L;
 
@@ -35,7 +38,7 @@ public class BaseTest {
         orderLines.add(getValidOrderLineDto());
         return OrderDto.builder()
                 .customerId(UUID.randomUUID())
-                .orderStatus(OrderStatusEnum.NEW)
+                .orderStatus(OrderStatus.NEW)
                 .orderLines(orderLines)
                 .build();
     }
@@ -59,7 +62,7 @@ public class BaseTest {
     protected Order getValidOrder(Customer customer) {
         return Order.builder()
                 .customer(customer)
-                .orderStatus(OrderStatusEnum.NEW)
+                .orderStatus(OrderStatus.NEW)
                 .build();
     }
 
@@ -80,5 +83,14 @@ public class BaseTest {
                 .upc("1234")
                 .price(BigDecimal.TEN)
                 .build();
+    }
+
+    protected Order saveOrder(Customer customer) {
+        Order order = getValidOrder(customer);
+        OrderLine orderLine = getValidOrderLine(order);
+        Set<OrderLine> orderLines = new HashSet<>();
+        orderLines.add(orderLine);
+        order.setOrderLines(orderLines);
+        return orderRepository.save(order);
     }
 }

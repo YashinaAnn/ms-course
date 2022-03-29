@@ -1,4 +1,4 @@
-package com.learners.model.dto;
+package com.learners.model.events;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,12 +8,11 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class InventoryDto {
+@Builder
+public class ValidationResultEvent {
 
-    private UUID id;
-    private Long pizzaId;
-    private int inventoryOnHand;
+    private UUID orderId;
+    private boolean isValid;
 }

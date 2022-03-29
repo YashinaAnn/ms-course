@@ -4,7 +4,7 @@ import com.learners.pizzaservice.BaseTest;
 import com.learners.pizzaservice.controller.PizzaController;
 import com.learners.pizzaservice.entity.Pizza;
 import com.learners.pizzaservice.mapper.PizzaMapper;
-import com.learners.model.dto.InventoryDto;
+import com.learners.model.dto.inventory.InventoryDto;
 import com.learners.model.dto.PizzaDto;
 import com.learners.model.dto.PizzaListDto;
 import com.learners.pizzaservice.repository.PizzaRepository;

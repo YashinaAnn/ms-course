@@ -1,7 +1,10 @@
-package com.learners.orderservice.model.dto;
+package com.learners.model.dto.order;
 
-import com.learners.orderservice.model.PizzaType;
-import lombok.*;
+import com.learners.model.dto.PizzaType;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

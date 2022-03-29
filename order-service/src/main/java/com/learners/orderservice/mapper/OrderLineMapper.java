@@ -1,7 +1,7 @@
 package com.learners.orderservice.mapper;
 
 import com.learners.orderservice.entity.OrderLine;
-import com.learners.orderservice.model.dto.OrderLineDto;
+import com.learners.model.dto.OrderLineDto;
 import org.mapstruct.DecoratedWith;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

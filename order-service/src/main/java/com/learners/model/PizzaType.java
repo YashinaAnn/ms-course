@@ -1,4 +1,4 @@
-package com.learners.orderservice.model;
+package com.learners.model;
 
 public enum PizzaType {
 

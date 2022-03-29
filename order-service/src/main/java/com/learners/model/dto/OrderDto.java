@@ -1,6 +1,6 @@
-package com.learners.orderservice.model.dto;
+package com.learners.model.dto;
 
-import com.learners.orderservice.model.OrderStatusEnum;
+import com.learners.model.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,5 +23,5 @@ public class OrderDto {
     private UUID customerId;
     @NotEmpty
     private Set<OrderLineDto> orderLines;
-    private OrderStatusEnum orderStatus;
+    private OrderStatus orderStatus;
 }

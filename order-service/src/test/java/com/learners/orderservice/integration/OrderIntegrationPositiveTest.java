@@ -1,13 +1,12 @@
 package com.learners.orderservice.integration;
 
+import com.learners.model.dto.OrderDto;
+import com.learners.model.dto.PizzaDto;
 import com.learners.orderservice.BaseTest;
 import com.learners.orderservice.controller.OrderController;
 import com.learners.orderservice.entity.Customer;
 import com.learners.orderservice.entity.Order;
-import com.learners.orderservice.entity.OrderLine;
 import com.learners.orderservice.mapper.OrderMapper;
-import com.learners.orderservice.model.dto.OrderDto;
-import com.learners.orderservice.model.dto.PizzaDto;
 import com.learners.orderservice.repository.CustomerRepository;
 import com.learners.orderservice.repository.OrderRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,9 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -139,14 +136,5 @@ public class OrderIntegrationPositiveTest extends BaseTest {
         assertThat(response.getBody()).isNotNull();
         UUID orderId = response.getBody().getId();
         assertThat(response.getBody()).isEqualTo(orderMapper.orderToDto(orderRepository.findById(orderId).get()));
-    }
-
-    private Order saveOrder(Customer customer) {
-        Order order = getValidOrder(customer);
-        OrderLine orderLine = getValidOrderLine(order);
-        Set<OrderLine> orderLines = new HashSet<>();
-        orderLines.add(orderLine);
-        order.setOrderLines(orderLines);
-        return orderRepository.save(order);
     }
 }

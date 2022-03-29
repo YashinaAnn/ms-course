@@ -1,7 +1,7 @@
 package com.learners.orderservice.service;
 
-import com.learners.orderservice.model.dto.PizzaDto;
-import com.learners.orderservice.model.dto.PizzaListDto;
+import com.learners.model.dto.PizzaDto;
+import com.learners.model.dto.PizzaListDto;
 
 public interface PizzaService {
 

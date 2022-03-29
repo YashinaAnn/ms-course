@@ -1,22 +1,26 @@
 package com.learners.orderservice.service.impl;
 
+import com.learners.model.OrderStatus;
+import com.learners.model.dto.OrderDto;
+import com.learners.model.dto.OrderLineDto;
+import com.learners.model.dto.PizzaDto;
 import com.learners.orderservice.controller.OrderController;
 import com.learners.orderservice.entity.Customer;
-import com.learners.orderservice.model.OrderStatusEnum;
-import com.learners.orderservice.model.dto.OrderDto;
-import com.learners.orderservice.model.dto.OrderLineDto;
-import com.learners.orderservice.model.dto.PizzaDto;
 import com.learners.orderservice.repository.CustomerRepository;
 import com.learners.orderservice.service.CafeService;
 import com.learners.orderservice.service.PizzaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
-//@Profile("demo")
+@Profile("!test")
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -56,7 +60,7 @@ public class CafeServiceImpl implements CafeService {
         Set<OrderLineDto> orderLines = new HashSet<>();
         orderLines.add(orderLineDto);
         return OrderDto.builder()
-                .orderStatus(OrderStatusEnum.NEW)
+                .orderStatus(OrderStatus.NEW)
                 .orderLines(orderLines)
                 .build();
     }
