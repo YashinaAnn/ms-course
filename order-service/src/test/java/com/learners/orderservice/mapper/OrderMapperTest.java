@@ -50,7 +50,7 @@ public class OrderMapperTest extends BaseTest {
 
         OrderLineDto orderLineDto = (OrderLineDto) dto.getOrderLines().toArray()[0];
         assertThat(orderLine.getOrder()).isEqualTo(order);
-        assertThat(orderLine.getOrderQty()).isEqualTo(orderLineDto.getQuantity());
+        assertThat(orderLine.getOrderQty()).isEqualTo(orderLineDto.getQuantityOrdered());
         assertThat(orderLine.getPizzaId()).isEqualTo(orderLineDto.getPizzaId());
     }
 
@@ -69,7 +69,7 @@ public class OrderMapperTest extends BaseTest {
         OrderLine orderLine = (OrderLine) order.getOrderLines().toArray()[0];
         OrderLineDto orderLineDto = (OrderLineDto) dto.getOrderLines().toArray()[0];
         assertThat(orderLine.getOrder()).isEqualTo(order);
-        assertThat(orderLine.getOrderQty()).isEqualTo(orderLineDto.getQuantity());
+        assertThat(orderLine.getOrderQty()).isEqualTo(orderLineDto.getQuantityOrdered());
         assertThat(orderLine.getPizzaId()).isEqualTo(orderLineDto.getPizzaId());
     }
 

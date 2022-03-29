@@ -47,7 +47,7 @@ public class BaseTest {
         return OrderLineDto.builder()
                 .pizzaId(PIZZA_ID)
                 .pizzaName("Great Pizza Combo")
-                .quantity(1)
+                .quantityOrdered(1)
                 .build();
     }
 
