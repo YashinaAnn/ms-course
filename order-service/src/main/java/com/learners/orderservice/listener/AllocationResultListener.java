@@ -1,6 +1,6 @@
 package com.learners.orderservice.listener;
 
-import com.learners.model.events.ValidationResult;
+import com.learners.model.events.AllocationResult;
 import com.learners.orderservice.config.JmsConfig;
 import com.learners.orderservice.service.OrderManager;
 import lombok.RequiredArgsConstructor;
@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class OrderValidationResultListener {
+public class AllocationResultListener {
 
     private final OrderManager orderManager;
 
-    @JmsListener(destination = JmsConfig.VALIDATION_RESULT_QUEUE)
-    public void listen(ValidationResult event) {
-        log.info("Validation order result: {}", event);
-        orderManager.processValidationResult(event.getOrderId(), event.isValid());
+    @JmsListener(destination = JmsConfig.ALLOCATION_RESULT_QUEUE)
+    public void listen(AllocationResult result) {
+        log.info("Allocation result message arrived: {}", result);
+        orderManager.processAllocationResult(result);
     }
 }

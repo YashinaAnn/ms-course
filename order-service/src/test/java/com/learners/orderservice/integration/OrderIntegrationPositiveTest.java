@@ -1,6 +1,6 @@
 package com.learners.orderservice.integration;
 
-import com.learners.model.dto.OrderDto;
+import com.learners.model.dto.order.OrderDto;
 import com.learners.model.dto.PizzaDto;
 import com.learners.orderservice.BaseTest;
 import com.learners.orderservice.controller.OrderController;

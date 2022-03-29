@@ -7,7 +7,7 @@ import com.learners.orderservice.exception.CustomerNotFoundException;
 import com.learners.orderservice.exception.OrderNotFoundException;
 import com.learners.orderservice.mapper.OrderMapper;
 import com.learners.model.OrderStatus;
-import com.learners.model.dto.OrderDto;
+import com.learners.model.dto.order.OrderDto;
 import com.learners.orderservice.repository.CustomerRepository;
 import com.learners.orderservice.repository.OrderLineRepository;
 import com.learners.orderservice.repository.OrderRepository;

@@ -3,7 +3,7 @@ package com.learners.orderservice.controller;
 import com.learners.orderservice.BaseTest;
 import com.learners.orderservice.exception.CustomerNotFoundException;
 import com.learners.orderservice.exception.OrderNotFoundException;
-import com.learners.model.dto.OrderDto;
+import com.learners.model.dto.order.OrderDto;
 import com.learners.orderservice.service.OrderService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

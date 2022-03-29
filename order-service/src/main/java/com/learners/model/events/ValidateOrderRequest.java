@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ValidateOrderEvent {
+public class ValidateOrderRequest {
 
     OrderDto order;
 
-    public static ValidateOrderEvent of(OrderDto orderDto) {
-        return ValidateOrderEvent.builder()
+    public static ValidateOrderRequest of(OrderDto orderDto) {
+        return ValidateOrderRequest.builder()
                 .order(orderDto)
                 .build();
     }

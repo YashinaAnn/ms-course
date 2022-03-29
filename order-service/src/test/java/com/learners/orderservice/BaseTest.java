@@ -7,8 +7,8 @@ import com.learners.orderservice.entity.Order;
 import com.learners.orderservice.entity.OrderLine;
 import com.learners.model.OrderStatus;
 import com.learners.model.PizzaType;
-import com.learners.model.dto.OrderDto;
-import com.learners.model.dto.OrderLineDto;
+import com.learners.model.dto.order.OrderDto;
+import com.learners.model.dto.order.OrderLineDto;
 import com.learners.model.dto.PizzaDto;
 import com.learners.orderservice.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class BaseTest {
         orderLines.add(getValidOrderLineDto());
         return OrderDto.builder()
                 .customerId(UUID.randomUUID())
-                .orderStatus(OrderStatus.NEW)
+                .orderStatus(OrderStatus.NEW.name())
                 .orderLines(orderLines)
                 .build();
     }

@@ -1,7 +1,0 @@
-package com.learners.model.dto.order;
-
-public enum OrderStatus {
-
-    NEW, CANCELLED,  VALIDATION_PENDING, VALIDATED, VALIDATION_ERROR,
-    ALLOCATION_PENDING, ALLOCATED, ALLOCATION_ERROR, PENDING_INVENTORY
-}

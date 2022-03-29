@@ -1,6 +1,6 @@
 package com.learners.orderservice.service;
 
-import com.learners.model.dto.OrderDto;
+import com.learners.model.dto.order.OrderDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 

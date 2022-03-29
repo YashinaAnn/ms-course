@@ -1,7 +1,7 @@
 package com.learners.orderservice.controller;
 
 import com.learners.orderservice.config.AppConfigs;
-import com.learners.model.dto.OrderDto;
+import com.learners.model.dto.order.OrderDto;
 import com.learners.orderservice.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

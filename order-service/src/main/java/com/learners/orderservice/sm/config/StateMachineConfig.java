@@ -17,9 +17,12 @@ import java.util.EnumSet;
 public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<OrderStatus, OrderEvent> {
 
     private final Action<OrderStatus, OrderEvent> validateOrderAction;
+    private final Action<OrderStatus, OrderEvent> allocateOrderAction;
 
-    public StateMachineConfig( @Qualifier("validateOrderAction") Action<OrderStatus, OrderEvent> validateOrderAction) {
+    public StateMachineConfig(@Qualifier("validateOrderAction") Action<OrderStatus, OrderEvent> validateOrderAction,
+                              @Qualifier("allocateOrderAction") Action<OrderStatus, OrderEvent> allocateOrderAction) {
         this.validateOrderAction = validateOrderAction;
+        this.allocateOrderAction = allocateOrderAction;
     }
 
     @Override
@@ -47,7 +50,7 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<OrderS
             .and().withExternal()
                 .source(OrderStatus.VALIDATED).target(OrderStatus.ALLOCATION_PENDING)
                 .event(OrderEvent.ALLOCATE_ORDER)
-                .action(null) // TODO
+                .action(allocateOrderAction)
             .and().withExternal()
                 .source(OrderStatus.ALLOCATION_PENDING).target(OrderStatus.ALLOCATED)
                 .event(OrderEvent.ALLOCATION_SUCCESS)

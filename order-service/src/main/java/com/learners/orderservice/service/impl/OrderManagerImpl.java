@@ -2,6 +2,8 @@ package com.learners.orderservice.service.impl;
 
 import com.learners.model.OrderEvent;
 import com.learners.model.OrderStatus;
+import com.learners.model.dto.order.OrderDto;
+import com.learners.model.events.AllocationResult;
 import com.learners.orderservice.entity.Order;
 import com.learners.orderservice.exception.OrderNotFoundException;
 import com.learners.orderservice.repository.OrderRepository;
@@ -35,42 +37,83 @@ public class OrderManagerImpl implements OrderManager {
         order.setId(null);
 
         order = repository.save(order);
-        StateMachine<OrderStatus, OrderEvent> machine = build(order);
-        sendEvent(machine, order.getId(), OrderEvent.VALIDATE_ORDER);
+        sendEvent(order, OrderEvent.VALIDATE_ORDER);
         return order;
     }
 
     @Override
-    public void processValidation(UUID orderId, boolean valid) {
+    public void processValidationResult(UUID orderId, boolean valid) {
         Order order = repository.findById(orderId)
                 .orElseThrow(() -> new OrderNotFoundException(orderId));
-        StateMachine<OrderStatus, OrderEvent> machine = build(order);
-        OrderEvent event = valid ? OrderEvent.VALIDATION_SUCCESS : OrderEvent.VALIDATION_FAILED;
+        if (valid) {
+            sendEvent(order, OrderEvent.VALIDATION_SUCCESS);
+            Order validatedOrder = repository.findById(orderId)
+                    .orElseThrow(() -> new OrderNotFoundException(orderId));
+            sendEvent(validatedOrder, OrderEvent.ALLOCATE_ORDER);
+        } else {
+            sendEvent(order, OrderEvent.VALIDATION_FAILED);
+        }
+    }
 
-        sendEvent(machine, orderId, event);
+    @Override
+    public void processAllocationResult(AllocationResult result) {
+        if (!result.isException() && !result.isPendingInventory()) {
+            processAllocationSuccess(result.getOrder());
+        } else if (result.isException()) {
+            processAllocationFailed(result.getOrder());
+        } else {
+            processAllocationPendingInventory(result.getOrder());
+        }
+    }
+
+    private void processAllocationSuccess(OrderDto orderDto) {
+        Order order = updateInventory(orderDto);
+        sendEvent(order, OrderEvent.ALLOCATION_SUCCESS);
+    }
+
+    private void processAllocationPendingInventory(OrderDto orderDto) {
+        Order order = updateInventory(orderDto);
+        sendEvent(order, OrderEvent.ALLOCATION_NO_INVENTORY);
+    }
+
+    private void processAllocationFailed(OrderDto orderDto) {
+        Order order = repository.findById(orderDto.getId())
+                .orElseThrow(() -> new OrderNotFoundException(orderDto.getId()));
+        sendEvent(order, OrderEvent.ALLOCATION_FAILED);
+    }
+
+    private Order updateInventory(OrderDto orderDto) {
+        Order order = repository.findById(orderDto.getId())
+                .orElseThrow(() -> new OrderNotFoundException(orderDto.getId()));
+        order.getOrderLines().forEach(orderLine -> {
+            orderDto.getOrderLines().forEach(orderLineDto -> {
+                if (orderLine.getId().equals(orderLineDto.getId())) {
+                    orderLine.setQtyAllocated(orderLineDto.getQuantityAllocated());
+                }
+            });
+        });
+        return repository.save(order);
+    }
+
+    private void sendEvent(Order order, OrderEvent event) {
+        StateMachine<OrderStatus, OrderEvent> machine = build(order);
+        Message<OrderEvent> message = MessageBuilder
+                .withPayload(event)
+                .setHeader(ORDER_ID_HEADER, order.getId())
+                .build();
+        machine.sendEvent(message);
     }
 
     private StateMachine<OrderStatus, OrderEvent> build(Order order) {
         StateMachine<OrderStatus, OrderEvent> machine = machineFactory.getStateMachine(order.getId().toString());
         machine.stop();
-
         machine.getStateMachineAccessor().doWithAllRegions(
                 sma -> {
                     sma.resetStateMachine(new DefaultStateMachineContext<>(order.getOrderStatus(), null, null, null));
                     sma.addStateMachineInterceptor(stateChangeInterceptor);
                 }
         );
-
         machine.start();
         return machine;
-    }
-
-    private void sendEvent(StateMachine<OrderStatus, OrderEvent> machine, UUID orderId, OrderEvent event) {
-        Message<OrderEvent> message = MessageBuilder
-                .withPayload(event)
-                .setHeader(ORDER_ID_HEADER, orderId)
-                .build();
-
-        machine.sendEvent(message);
     }
 }

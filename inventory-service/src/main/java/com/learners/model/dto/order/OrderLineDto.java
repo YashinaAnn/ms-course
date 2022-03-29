@@ -1,7 +1,10 @@
-package com.learners.model.dto;
+package com.learners.model.dto.order;
 
-import com.learners.model.PizzaType;
-import lombok.*;
+import com.learners.model.dto.PizzaType;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -26,5 +29,6 @@ public class OrderLineDto {
     @NotNull
     private PizzaType type;
     @Positive
-    private Integer quantity;
+    private int quantityOrdered;
+    private int quantityAllocated;
 }

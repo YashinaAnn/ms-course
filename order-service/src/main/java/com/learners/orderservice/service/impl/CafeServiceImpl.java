@@ -1,8 +1,8 @@
 package com.learners.orderservice.service.impl;
 
 import com.learners.model.OrderStatus;
-import com.learners.model.dto.OrderDto;
-import com.learners.model.dto.OrderLineDto;
+import com.learners.model.dto.order.OrderDto;
+import com.learners.model.dto.order.OrderLineDto;
 import com.learners.model.dto.PizzaDto;
 import com.learners.orderservice.controller.OrderController;
 import com.learners.orderservice.entity.Customer;
@@ -54,13 +54,13 @@ public class CafeServiceImpl implements CafeService {
         OrderLineDto orderLineDto = OrderLineDto.builder()
                 .pizzaId(pizza.getId())
                 .pizzaName(pizza.getName())
-                .quantity(1)
+                .quantityOrdered(1)
                 .build();
 
         Set<OrderLineDto> orderLines = new HashSet<>();
         orderLines.add(orderLineDto);
         return OrderDto.builder()
-                .orderStatus(OrderStatus.NEW)
+                .orderStatus(OrderStatus.NEW.name())
                 .orderLines(orderLines)
                 .build();
     }

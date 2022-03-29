@@ -1,4 +1,4 @@
-package com.learners.inventoryservice.service;
+package com.learners.inventoryservice.listener;
 
 import com.learners.inventoryservice.domain.Inventory;
 import com.learners.inventoryservice.repository.InventoryRepository;
@@ -13,11 +13,10 @@ import static com.learners.inventoryservice.config.JmsConfig.INVENTORY_QUEUE;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class DeliveryServiceImpl implements DeliveryService {
+public class DeliveryListener {
 
     private final InventoryRepository inventoryRepository;
 
-    @Override
     @JmsListener(destination = INVENTORY_QUEUE)
     public void receiveDelivery(DeliveryEvent event) {
         log.debug("Delivery event arrived: {}", event);

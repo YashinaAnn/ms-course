@@ -1,6 +1,6 @@
 package com.learners.model.dto.order;
 
-import com.learners.model.dto.PizzaType;
+import com.learners.model.PizzaType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

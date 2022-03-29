@@ -2,7 +2,8 @@ package com.learners.orderservice.sm.action;
 
 import com.learners.model.OrderEvent;
 import com.learners.model.OrderStatus;
-import com.learners.model.events.ValidateOrderRequest;
+import com.learners.model.events.AllocateOrderRequest;
+import com.learners.orderservice.config.JmsConfig;
 import com.learners.orderservice.entity.Order;
 import com.learners.orderservice.exception.OrderNotFoundException;
 import com.learners.orderservice.mapper.OrderMapper;
@@ -17,14 +18,13 @@ import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
-import static com.learners.orderservice.config.JmsConfig.VALIDATE_ORDER_QUEUE;
 import static com.learners.orderservice.service.impl.OrderManagerImpl.ORDER_ID_HEADER;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
-@Qualifier("validateOrderAction")
-public class ValidateOrderAction implements Action<OrderStatus, OrderEvent> {
+@Qualifier("allocateOrderAction")
+public class AllocateOrderAction implements Action<OrderStatus, OrderEvent> {
 
     private final JmsTemplate jmsTemplate;
     private final OrderRepository repository;
@@ -35,9 +35,9 @@ public class ValidateOrderAction implements Action<OrderStatus, OrderEvent> {
         UUID orderId = (UUID) context.getMessageHeader(ORDER_ID_HEADER);
         Order order = repository.findById(orderId)
                 .orElseThrow(() -> new OrderNotFoundException(orderId));
-        ValidateOrderRequest event = ValidateOrderRequest.of(mapper.orderToDto(order));
 
-        log.info("Sending validation order event: {}", event);
-        jmsTemplate.convertAndSend(VALIDATE_ORDER_QUEUE, event);
+        AllocateOrderRequest request = AllocateOrderRequest.of(mapper.orderToDto(order));
+        log.info("Sending allocate order request: {}", request);
+        jmsTemplate.convertAndSend(JmsConfig.ALLOCATE_ORDER_QUEUE, request);
     }
 }

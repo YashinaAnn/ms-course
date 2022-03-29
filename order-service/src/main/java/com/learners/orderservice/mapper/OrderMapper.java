@@ -4,7 +4,7 @@ import com.learners.orderservice.entity.Customer;
 import com.learners.orderservice.entity.Order;
 import com.learners.orderservice.entity.OrderLine;
 import com.learners.orderservice.exception.CustomerNotFoundException;
-import com.learners.model.dto.OrderDto;
+import com.learners.model.dto.order.OrderDto;
 import com.learners.orderservice.repository.CustomerRepository;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;

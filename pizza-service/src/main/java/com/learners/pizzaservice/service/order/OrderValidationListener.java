@@ -1,7 +1,7 @@
 package com.learners.pizzaservice.service.order;
 
-import com.learners.model.events.ValidateOrderEvent;
-import com.learners.model.events.ValidationResultEvent;
+import com.learners.model.events.ValidateOrderRequest;
+import com.learners.model.events.ValidationResult;
 import com.learners.pizzaservice.config.JmsConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,10 +18,10 @@ public class OrderValidationListener {
     private final JmsTemplate jmsTemplate;
 
     @JmsListener(destination = JmsConfig.VALIDATE_ORDER_QUEUE)
-    public void listen(ValidateOrderEvent event) {
+    public void listen(ValidateOrderRequest event) {
         log.info("Validate order request: {}", event);
 
-        ValidationResultEvent resultEvent = ValidationResultEvent.builder()
+        ValidationResult resultEvent = ValidationResult.builder()
                 .orderId(event.getOrder().getId())
                 .isValid(validator.validate(event.getOrder()))
                 .build();
