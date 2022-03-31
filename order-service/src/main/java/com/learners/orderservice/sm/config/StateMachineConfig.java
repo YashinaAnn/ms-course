@@ -31,8 +31,7 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<OrderS
                 .initial(OrderStatus.NEW)
                 .states(EnumSet.allOf(OrderStatus.class))
                 .end(OrderStatus.VALIDATION_ERROR)
-                .end(OrderStatus.ALLOCATION_ERROR)
-                .end(OrderStatus.ALLOCATED);
+                .end(OrderStatus.ALLOCATION_ERROR);
     }
 
     @Override

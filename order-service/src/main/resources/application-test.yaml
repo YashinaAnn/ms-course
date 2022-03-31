@@ -14,3 +14,6 @@ spring:
     url: jdbc:h2:mem:mydb
     username: sa
     password: sa
+
+app.config:
+  pizza-service-host: "http://localhost:8083"

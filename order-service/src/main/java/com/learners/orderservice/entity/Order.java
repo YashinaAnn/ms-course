@@ -2,11 +2,11 @@ package com.learners.orderservice.entity;
 
 import com.learners.model.OrderStatus;
 import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.*;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Set;

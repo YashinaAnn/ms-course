@@ -11,6 +11,7 @@ import com.learners.orderservice.service.OrderManager;
 import com.learners.orderservice.sm.OrderStateChangeInterceptor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.awaitility.Durations;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.statemachine.StateMachine;
@@ -18,7 +19,10 @@ import org.springframework.statemachine.config.StateMachineFactory;
 import org.springframework.statemachine.support.DefaultStateMachineContext;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.UUID;
+
+import static org.awaitility.Awaitility.await;
 
 @Slf4j
 @Service
@@ -31,12 +35,13 @@ public class OrderManagerImpl implements OrderManager {
     private final OrderStateChangeInterceptor stateChangeInterceptor;
     private final OrderRepository repository;
 
+    @Transactional
     @Override
     public Order createOrder(Order order) {
         order.setOrderStatus(OrderStatus.NEW);
         order.setId(null);
 
-        order = repository.save(order);
+        order = repository.saveAndFlush(order);
         sendEvent(order, OrderEvent.VALIDATE_ORDER);
         return order;
     }
@@ -46,13 +51,28 @@ public class OrderManagerImpl implements OrderManager {
         Order order = repository.findById(orderId)
                 .orElseThrow(() -> new OrderNotFoundException(orderId));
         if (valid) {
+            awaitForStatus(orderId, OrderStatus.VALIDATION_PENDING);
+
             sendEvent(order, OrderEvent.VALIDATION_SUCCESS);
+
+            awaitForStatus(orderId, OrderStatus.VALIDATED);
+
             Order validatedOrder = repository.findById(orderId)
                     .orElseThrow(() -> new OrderNotFoundException(orderId));
             sendEvent(validatedOrder, OrderEvent.ALLOCATE_ORDER);
         } else {
             sendEvent(order, OrderEvent.VALIDATION_FAILED);
         }
+    }
+
+    private void awaitForStatus(UUID orderId, OrderStatus status) {
+        await().atMost(Durations.FIVE_SECONDS).until(() -> {
+            OrderStatus currentStatus = repository.findById(orderId)
+                    .orElseThrow(() -> new OrderNotFoundException(orderId))
+                    .getOrderStatus();
+            log.info("Current status {}, expected {}", currentStatus, status);
+            return currentStatus.equals(status);
+        });
     }
 
     @Override
@@ -92,7 +112,7 @@ public class OrderManagerImpl implements OrderManager {
                 }
             });
         });
-        return repository.save(order);
+        return repository.saveAndFlush(order);
     }
 
     private void sendEvent(Order order, OrderEvent event) {
