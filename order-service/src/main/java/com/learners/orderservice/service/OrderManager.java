@@ -10,4 +10,5 @@ public interface OrderManager {
     Order createOrder(Order order);
     void processValidationResult(UUID orderId, boolean valid);
     void processAllocationResult(AllocationResult result);
+    void pickUp(UUID id);
 }

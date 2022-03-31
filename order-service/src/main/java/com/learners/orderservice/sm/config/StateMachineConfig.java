@@ -31,7 +31,8 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<OrderS
                 .initial(OrderStatus.NEW)
                 .states(EnumSet.allOf(OrderStatus.class))
                 .end(OrderStatus.VALIDATION_ERROR)
-                .end(OrderStatus.ALLOCATION_ERROR);
+                .end(OrderStatus.ALLOCATION_ERROR)
+                .end(OrderStatus.PICKED_UP);
     }
 
     @Override
@@ -58,6 +59,9 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<OrderS
                 .event(OrderEvent.ALLOCATION_FAILED)
             .and().withExternal()
                 .source(OrderStatus.ALLOCATION_PENDING).target(OrderStatus.PENDING_INVENTORY)
-                .event(OrderEvent.ALLOCATION_NO_INVENTORY);
+                .event(OrderEvent.ALLOCATION_NO_INVENTORY)
+            .and().withExternal()
+                .source(OrderStatus.ALLOCATED).target(OrderStatus.PICKED_UP)
+                .event(OrderEvent.PICK_UP);
     }
 }

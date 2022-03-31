@@ -52,9 +52,7 @@ public class OrderManagerImpl implements OrderManager {
                 .orElseThrow(() -> new OrderNotFoundException(orderId));
         if (valid) {
             awaitForStatus(orderId, OrderStatus.VALIDATION_PENDING);
-
             sendEvent(order, OrderEvent.VALIDATION_SUCCESS);
-
             awaitForStatus(orderId, OrderStatus.VALIDATED);
 
             Order validatedOrder = repository.findById(orderId)
@@ -113,6 +111,12 @@ public class OrderManagerImpl implements OrderManager {
             });
         });
         return repository.saveAndFlush(order);
+    }
+
+    @Override
+    public void pickUp(UUID id) {
+        Order order = repository.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
+        sendEvent(order, OrderEvent.PICK_UP);
     }
 
     private void sendEvent(Order order, OrderEvent event) {
