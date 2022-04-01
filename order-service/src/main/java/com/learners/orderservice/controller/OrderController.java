@@ -42,4 +42,10 @@ public class OrderController {
                                                @Validated @RequestBody OrderDto orderDto) {
         return new ResponseEntity<>(orderService.placeOrder(customerId, orderDto), HttpStatus.CREATED);
     }
+
+    @PostMapping("/{orderId}/pickup")
+    public void pickUpOrder(@PathVariable UUID customerId,
+                                                @PathVariable UUID orderId) {
+        orderService.pickUpOrder(customerId, orderId);
+    }
 }

@@ -11,4 +11,5 @@ public interface OrderService {
     Page<OrderDto> getOrders(UUID customerId, PageRequest pageRequest);
     OrderDto getOrderById(UUID customerId, UUID orderId);
     OrderDto placeOrder(UUID customerId, OrderDto orderDto);
+    void pickUpOrder(UUID customerId, UUID orderId);
 }
