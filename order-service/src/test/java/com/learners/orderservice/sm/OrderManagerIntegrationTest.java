@@ -32,7 +32,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 
 @ExtendWith(WireMockExtension.class)
-public class OrderManagerSmTest extends BaseTest {
+public class OrderManagerIntegrationTest extends BaseTest {
 
     @Autowired
     private OrderManager orderManager;
@@ -57,9 +57,8 @@ public class OrderManagerSmTest extends BaseTest {
 
     @Test
     public void testNewToAllocated() throws JsonProcessingException {
-        PizzaDto pizzaDto = getValidPizzaDto();
         wireMockServer.stubFor(get(configs.getPizzaServicePath() + PIZZA_ID)
-                .willReturn(okJson(objectMapper.writeValueAsString(pizzaDto))));
+                .willReturn(okJson(objectMapper.writeValueAsString(getValidPizzaDto()))));
 
         Order order = orderManager.createOrder(createOrder());
         awaitForStatus(order.getId(), OrderStatus.ALLOCATED);
@@ -73,9 +72,8 @@ public class OrderManagerSmTest extends BaseTest {
 
     @Test
     public void testNewToPickedUp() throws JsonProcessingException {
-        PizzaDto pizzaDto = getValidPizzaDto();
         wireMockServer.stubFor(get(configs.getPizzaServicePath() + PIZZA_ID)
-                .willReturn(okJson(objectMapper.writeValueAsString(pizzaDto))));
+                .willReturn(okJson(objectMapper.writeValueAsString(getValidPizzaDto()))));
 
         Order order = orderManager.createOrder(createOrder());
         awaitForStatus(order.getId(), OrderStatus.ALLOCATED);
@@ -85,6 +83,41 @@ public class OrderManagerSmTest extends BaseTest {
 
         Order savedOrder = orderRepository.findById(order.getId()).orElseThrow(IllegalArgumentException::new);
         assertThat(savedOrder.getOrderStatus()).isEqualTo(OrderStatus.PICKED_UP);
+    }
+
+    @Test
+    public void testNewToAllocationError() throws JsonProcessingException {
+        PizzaDto pizzaDto = getValidPizzaDto();
+        pizzaDto.setName(ALLOCATION_ERROR_PIZZA);
+        wireMockServer.stubFor(get(configs.getPizzaServicePath() + PIZZA_ID)
+                .willReturn(okJson(objectMapper.writeValueAsString(pizzaDto))));
+
+        Order order = orderManager.createOrder(createOrder());
+        awaitForStatus(order.getId(), OrderStatus.ALLOCATION_ERROR);
+
+        Order savedOrder = orderRepository.findById(order.getId()).orElseThrow(IllegalArgumentException::new);
+        assertThat(savedOrder.getOrderStatus()).isEqualTo(OrderStatus.ALLOCATION_ERROR);
+        savedOrder.getOrderLines().forEach(orderLine ->
+            assertThat(orderLine.getQtyAllocated()).isEqualTo(0)
+        );
+    }
+
+    @Test
+    public void testNewToPendingInventory() throws JsonProcessingException {
+        PizzaDto pizzaDto = getValidPizzaDto();
+        pizzaDto.setName(PENDING_INVENTORY_PIZZA);
+        wireMockServer.stubFor(get(configs.getPizzaServicePath() + PIZZA_ID)
+                .willReturn(okJson(objectMapper.writeValueAsString(pizzaDto))));
+
+        Order order = orderManager.createOrder(createOrder());
+        awaitForStatus(order.getId(), OrderStatus.PENDING_INVENTORY);
+
+        Order savedOrder = orderRepository.findById(order.getId()).orElseThrow(IllegalArgumentException::new);
+        assertThat(savedOrder.getOrderStatus()).isEqualTo(OrderStatus.PENDING_INVENTORY);
+        boolean pendingInventory = savedOrder.getOrderLines().stream().anyMatch(orderLine ->
+            orderLine.getQtyAllocated() != orderLine.getOrderQty()
+        );
+        assertThat(pendingInventory).isTrue();
     }
 
     private Order createOrder() {

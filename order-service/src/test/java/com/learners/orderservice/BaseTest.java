@@ -32,6 +32,8 @@ public class BaseTest {
     protected OrderRepository orderRepository;
 
     public static final long PIZZA_ID = 1L;
+    public static final String ALLOCATION_ERROR_PIZZA = "AllocationError";
+    public static final String PENDING_INVENTORY_PIZZA = "PendingInventory";
 
     protected OrderDto getValidOrderDto() {
         Set<OrderLineDto> orderLines = new HashSet<>();

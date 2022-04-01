@@ -29,12 +29,12 @@ public class OrderLine extends BaseEntity {
     @ManyToOne
     private Order order;
 
-    private Integer orderQty = 0;
-    private Integer qtyAllocated = 0;
+    private int orderQty;
+    private int qtyAllocated;
 
     @Builder
     public OrderLine(Long version, LocalDateTime creationDate, LocalDateTime lastModifiedDate,
-                     UUID id, Long pizzaId, Order order, Integer orderQty, Integer qtyAllocated) {
+                     UUID id, Long pizzaId, Order order, int orderQty, int qtyAllocated) {
         super(version, creationDate, lastModifiedDate);
         this.id = id;
         this.pizzaId = pizzaId;

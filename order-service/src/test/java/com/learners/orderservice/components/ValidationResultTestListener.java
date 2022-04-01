@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Profile("test")
 @Component
 @RequiredArgsConstructor
-public class MockedValidationResultListener {
+public class ValidationResultTestListener {
 
     private final JmsTemplate jmsTemplate;
 
