@@ -6,17 +6,18 @@ import com.learners.model.events.AllocateOrderRequest;
 import com.learners.model.events.AllocationResult;
 import com.learners.orderservice.config.JmsConfig;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
-import static com.learners.orderservice.BaseTest.ALLOCATION_ERROR_PIZZA;
-import static com.learners.orderservice.BaseTest.PENDING_INVENTORY_PIZZA;
+import static com.learners.orderservice.BaseTest.*;
 
 @Profile("test")
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class AllocationResultTestListener {
 
     private final JmsTemplate jmsTemplate;
@@ -25,11 +26,12 @@ public class AllocationResultTestListener {
     public void listen(AllocateOrderRequest request) {
         OrderDto order = request.getOrder();
 
-        boolean pendingInventory = order.getOrderLines().stream()
-                .anyMatch(orderLine -> PENDING_INVENTORY_PIZZA.equals(orderLine.getPizzaName()));
-        boolean exception = order.getOrderLines().stream()
-                .anyMatch(orderLine -> ALLOCATION_ERROR_PIZZA.equals(orderLine.getPizzaName()));
+        if (skipAllocation(order)) {
+            log.info("Skipping allocation...");
+            return;
+        }
 
+        boolean pendingInventory = pendingInventory(order);
         if (!pendingInventory) {
             for (OrderLineDto orderLine : order.getOrderLines()) {
                 orderLine.setQuantityAllocated(orderLine.getQuantityOrdered());
@@ -40,7 +42,22 @@ public class AllocationResultTestListener {
                 AllocationResult.builder()
                         .order(order)
                         .pendingInventory(pendingInventory)
-                        .exception(exception)
+                        .exception(allocationException(order))
                         .build());
+    }
+
+    private boolean skipAllocation(OrderDto order) {
+        return order.getOrderLines().stream()
+                .anyMatch(orderLine -> NO_ALLOCATION.equals(orderLine.getPizzaName()));
+    }
+
+    private boolean pendingInventory(OrderDto order) {
+        return order.getOrderLines().stream()
+                .anyMatch(orderLine -> PENDING_INVENTORY.equals(orderLine.getPizzaName()));
+    }
+
+    private boolean allocationException(OrderDto order) {
+        return order.getOrderLines().stream()
+                .anyMatch(orderLine -> ALLOCATION_ERROR.equals(orderLine.getPizzaName()));
     }
 }

@@ -11,4 +11,5 @@ public interface OrderManager {
     void processValidationResult(UUID orderId, boolean valid);
     void processAllocationResult(AllocationResult result);
     void pickUp(UUID id);
+    void cancel(UUID id);
 }

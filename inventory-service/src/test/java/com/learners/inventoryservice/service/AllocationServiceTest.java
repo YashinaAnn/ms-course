@@ -10,9 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,16 +23,18 @@ public class AllocationServiceTest {
     @Autowired
     private InventoryRepository repository;
 
+    public final long PIZZA_ID = 123L;
+
     @Transactional
     @Test
     public void testFullAllocation() {
-        long pizzaId = 123L;
         int qtyOrdered = 2;
         int inventoryOnHand = 10;
-        Set<OrderLineDto> orderLines = new HashSet<>();
-        orderLines.add(getValidOrderLineDto(pizzaId, qtyOrdered));
-        OrderDto orderDto = getValidOrderDto(orderLines);
-        Inventory inventory = repository.save(getValidInventory(pizzaId, inventoryOnHand));
+
+        Inventory inventory = repository.save(getValidInventory(PIZZA_ID, inventoryOnHand));
+
+        OrderLineDto orderLine = getValidOrderLineDto(PIZZA_ID, qtyOrdered);
+        OrderDto orderDto = createOrder(orderLine);
 
         boolean allocated = allocationService.allocateOrder(orderDto);
 
@@ -46,17 +46,33 @@ public class AllocationServiceTest {
 
     @Transactional
     @Test
+    public void testFullAllocation_EqualsToOrdered() {
+        int qtyOrdered = 2;
+        int inventoryOnHand = 2;
+
+        Inventory inventory = repository.save(getValidInventory(PIZZA_ID, inventoryOnHand));
+
+        OrderLineDto orderLine = getValidOrderLineDto(PIZZA_ID, qtyOrdered);
+        OrderDto orderDto = createOrder(orderLine);
+
+        boolean allocated = allocationService.allocateOrder(orderDto);
+
+        assertThat(allocated).isEqualTo(true);
+        assertThat(repository.findById(inventory.getId())).isEmpty();
+    }
+
+    @Transactional
+    @Test
     public void testPartialAllocation_AllocationCompleted() {
-        long pizzaId = 123L;
         int qtyOrdered = 2;
         int inv1 = 1;
         int inv2 = 10;
 
-        Set<OrderLineDto> orderLines = new HashSet<>();
-        orderLines.add(getValidOrderLineDto(pizzaId, qtyOrdered));
-        OrderDto orderDto = getValidOrderDto(orderLines);
-        Inventory inventory1 = repository.save(getValidInventory(pizzaId, inv1));
-        Inventory inventory2 = repository.save(getValidInventory(pizzaId, inv2));
+        Inventory inventory1 = repository.save(getValidInventory(PIZZA_ID, inv1));
+        Inventory inventory2 = repository.save(getValidInventory(PIZZA_ID, inv2));
+
+        OrderLineDto orderLine = getValidOrderLineDto(PIZZA_ID, qtyOrdered);
+        OrderDto orderDto = createOrder(orderLine);
 
         boolean allocated = allocationService.allocateOrder(orderDto);
 
@@ -70,20 +86,72 @@ public class AllocationServiceTest {
     @Transactional
     @Test
     public void testPartialAllocation_PendingInventory() {
-        long pizzaId = 123L;
         int qtyOrdered = 2;
-        int inv1 = 1;
+        int inventoryOnHand = 1;
 
-        Set<OrderLineDto> orderLines = new HashSet<>();
-        orderLines.add(getValidOrderLineDto(pizzaId, qtyOrdered));
-        OrderDto orderDto = getValidOrderDto(orderLines);
-        Inventory inventory1 = repository.save(getValidInventory(pizzaId, inv1));
+        Inventory inventory1 = repository.save(getValidInventory(PIZZA_ID, inventoryOnHand));
+
+        OrderLineDto orderLine = getValidOrderLineDto(PIZZA_ID, qtyOrdered);
+        OrderDto orderDto = createOrder(orderLine);
 
         boolean allocated = allocationService.allocateOrder(orderDto);
 
         assertThat(allocated).isEqualTo(false);
         assertThat(repository.findById(inventory1.getId())).isEmpty();
-        assertThat(orderDto.getOrderLines().stream().map(OrderLineDto::getQuantityAllocated)).contains(inv1);
+        assertThat(orderDto.getOrderLines().stream().map(OrderLineDto::getQuantityAllocated))
+                .contains(inventoryOnHand);
+    }
+
+    @Transactional
+    @Test
+    void testDeallocateOrder_FullyAllocated() {
+        int qtyOrdered = 2;
+        int qtyAllocated = 2;
+
+        OrderLineDto orderLine = getValidOrderLineDto(PIZZA_ID, qtyOrdered);
+        orderLine.setQuantityAllocated(qtyAllocated);
+        OrderDto orderDto = createOrder(orderLine);
+
+        allocationService.deallocateOrder(orderDto);
+
+        List<Inventory> inventoryList = repository.findAllByPizzaId(PIZZA_ID);
+        assertThat(inventoryList).hasSize(1);
+        assertThat(inventoryList)
+                .allMatch(inventory -> inventory.getInventoryOnHand() == qtyAllocated);
+    }
+
+    @Transactional
+    @Test
+    void testDeallocateOrder_PartiallyAllocated() {
+        int qtyOrdered = 2;
+        int qtyAllocated = 1;
+
+        OrderLineDto orderLine = getValidOrderLineDto(PIZZA_ID, qtyOrdered);
+        orderLine.setQuantityAllocated(qtyAllocated);
+        OrderDto orderDto = createOrder(orderLine);
+
+        allocationService.deallocateOrder(orderDto);
+
+        List<Inventory> inventoryList = repository.findAllByPizzaId(PIZZA_ID);
+        assertThat(inventoryList).hasSize(1);
+        assertThat(inventoryList)
+                .allMatch(inventory -> inventory.getInventoryOnHand() == qtyAllocated);
+    }
+
+    @Transactional
+    @Test
+    void testDeallocateOrder_NotAllocated() {
+        int qtyOrdered = 2;
+        int qtyAllocated = 0;
+
+        OrderLineDto orderLine = getValidOrderLineDto(PIZZA_ID, qtyOrdered);
+        orderLine.setQuantityAllocated(qtyAllocated);
+        OrderDto orderDto = createOrder(orderLine);
+
+        allocationService.deallocateOrder(orderDto);
+
+        List<Inventory> inventoryList = repository.findAllByPizzaId(PIZZA_ID);
+        assertThat(inventoryList).isEmpty();
     }
 
     private Inventory getValidInventory(long pizzaId, int inventory) {
@@ -99,6 +167,11 @@ public class AllocationServiceTest {
                 .orderStatus("NEW")
                 .orderLines(orderLines)
                 .build();
+    }
+
+    private OrderDto createOrder(OrderLineDto... orderLineDtos) {
+        Set<OrderLineDto> orderLines = new HashSet<>(Arrays.asList(orderLineDtos));
+        return getValidOrderDto(orderLines);
     }
 
     private OrderLineDto getValidOrderLineDto(long pizzaId, int qtyOrdered) {

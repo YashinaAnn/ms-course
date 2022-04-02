@@ -119,6 +119,12 @@ public class OrderManagerImpl implements OrderManager {
         sendEvent(order, OrderEvent.PICK_UP);
     }
 
+    @Override
+    public void cancel(UUID id) {
+        Order order = repository.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
+        sendEvent(order, OrderEvent.CANCEL_ORDER);
+    }
+
     private void sendEvent(Order order, OrderEvent event) {
         StateMachine<OrderStatus, OrderEvent> machine = build(order);
         Message<OrderEvent> message = MessageBuilder

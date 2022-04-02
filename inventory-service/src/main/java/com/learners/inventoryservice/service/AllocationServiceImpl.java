@@ -53,12 +53,29 @@ public class AllocationServiceImpl implements AllocationService {
         int inventoryToAllocate = orderLine.getQuantityOrdered() - orderLine.getQuantityAllocated();
         orderLine.setQuantityAllocated(orderLine.getQuantityOrdered());
         inventory.setInventoryOnHand(inventory.getInventoryOnHand() - inventoryToAllocate);
-        repository.save(inventory);
+        if (inventory.getInventoryOnHand() > 0) {
+            repository.save(inventory);
+        } else {
+            repository.delete(inventory);
+        }
     }
 
     private void partialAllocation(Inventory inventory, OrderLineDto orderLine) {
         orderLine.setQuantityAllocated(orderLine.getQuantityAllocated() + inventory.getInventoryOnHand());
-        inventory.setInventoryOnHand(0);
         repository.delete(inventory);
+    }
+
+    @Override
+    public void deallocateOrder(OrderDto order) {
+        order.getOrderLines().forEach(orderLine -> {
+            if (orderLine.getQuantityAllocated() > 0) {
+                Inventory inventory = Inventory.builder()
+                        .inventoryOnHand(orderLine.getQuantityAllocated())
+                        .pizzaId(orderLine.getPizzaId())
+                        .build();
+                log.info("Saving inventory: {}", inventory);
+                repository.save(inventory);
+            }
+        });
     }
 }

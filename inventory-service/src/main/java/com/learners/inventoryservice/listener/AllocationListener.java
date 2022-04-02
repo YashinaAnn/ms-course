@@ -35,7 +35,7 @@ public class AllocationListener {
             builder.exception(false);
             builder.pendingInventory(!allocated);
         } catch (Exception e) {
-            log.error("Exception occured during order allocation: {}", e.getStackTrace());
+            log.error("Exception occurred during order allocation: {}", e.getMessage());
             builder.exception(true);
         }
         builder.order(order);
