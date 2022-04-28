@@ -4,9 +4,10 @@ import com.learners.orderservice.entity.Customer;
 import com.learners.orderservice.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-//@Profile("demo")
+@Profile("!test")
 @Component
 @RequiredArgsConstructor
 public class OrderDataLoader implements CommandLineRunner {

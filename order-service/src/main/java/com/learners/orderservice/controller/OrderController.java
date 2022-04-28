@@ -45,7 +45,7 @@ public class OrderController {
 
     @PostMapping("/{orderId}/pickup")
     public void pickUpOrder(@PathVariable UUID customerId,
-                                                @PathVariable UUID orderId) {
+                            @PathVariable UUID orderId) {
         orderService.pickUpOrder(customerId, orderId);
     }
 }
