@@ -15,7 +15,7 @@ public class OrderValidationResultListener {
 
     private final OrderManager orderManager;
 
-    @JmsListener(destination = JmsConfig.VALIDATION_RESULT_QUEUE)
+    @JmsListener(destination = "${app.config.validation-result-queue}")
     public void listen(ValidationResult event) {
         log.info("Validation order result: {}", event);
         orderManager.processValidationResult(event.getOrderId(), event.isValid());

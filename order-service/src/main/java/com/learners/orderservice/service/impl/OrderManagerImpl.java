@@ -85,12 +85,12 @@ public class OrderManagerImpl implements OrderManager {
     }
 
     private void processAllocationSuccess(OrderDto orderDto) {
-        Order order = updateInventory(orderDto);
+        Order order = updateAllocatedInventory(orderDto);
         sendEvent(order, OrderEvent.ALLOCATION_SUCCESS);
     }
 
     private void processAllocationPendingInventory(OrderDto orderDto) {
-        Order order = updateInventory(orderDto);
+        Order order = updateAllocatedInventory(orderDto);
         sendEvent(order, OrderEvent.ALLOCATION_NO_INVENTORY);
     }
 
@@ -100,7 +100,7 @@ public class OrderManagerImpl implements OrderManager {
         sendEvent(order, OrderEvent.ALLOCATION_FAILED);
     }
 
-    private Order updateInventory(OrderDto orderDto) {
+    private Order updateAllocatedInventory(OrderDto orderDto) {
         Order order = repository.findById(orderDto.getId())
                 .orElseThrow(() -> new OrderNotFoundException(orderDto.getId()));
         order.getOrderLines().forEach(orderLine -> {

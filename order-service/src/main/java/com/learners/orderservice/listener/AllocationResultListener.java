@@ -15,7 +15,7 @@ public class AllocationResultListener {
 
     private final OrderManager orderManager;
 
-    @JmsListener(destination = JmsConfig.ALLOCATION_RESULT_QUEUE)
+    @JmsListener(destination = "${app.config.allocation-result-queue}")
     public void listen(AllocationResult result) {
         log.info("Allocation result message arrived: {}", result);
         orderManager.processAllocationResult(result);

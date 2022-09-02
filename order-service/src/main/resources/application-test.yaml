@@ -17,3 +17,9 @@ spring:
 
 app.config:
   pizza-service-host: "http://localhost:8083"
+  validate-order-queue: "validate-order"
+  validation-result-queue: "validation-result"
+  allocate-order-queue: "allocate-order"
+  allocation-result-queue: "allocation-result"
+  deallocate-order-queue: "deallocate-order"
+  allocation-error-queue: "allocation-error"

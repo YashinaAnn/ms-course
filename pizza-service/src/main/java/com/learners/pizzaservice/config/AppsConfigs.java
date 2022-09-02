@@ -16,4 +16,9 @@ public class AppsConfigs {
 
     private String inventoryServiceHost;
     private String inventoryPath;
+
+    private String deliveryRequestQueue;
+    private String newInventoryQueue;
+    private String validateOrderQueue;
+    private String validationResultQueue;
 }

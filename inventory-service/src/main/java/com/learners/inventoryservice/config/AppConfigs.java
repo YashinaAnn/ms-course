@@ -1,25 +1,18 @@
-package com.learners.orderservice.config;
+package com.learners.inventoryservice.config;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-@Data
 @Configuration
 @ConfigurationProperties(prefix = "app.config")
+@Data
+@NoArgsConstructor
 public class AppConfigs {
 
-    private int defaultPage;
-    private int defaultSize;
-
-    private String pizzaServiceHost;
-    private String pizzaServicePath;
-
-    private String validateOrderQueue;
-    private String validationResultQueue;
+    private String inventoryQueue;
     private String allocateOrderQueue;
     private String allocationResultQueue;
     private String deallocateOrderQueue;
-    private String allocationErrorQueue;
-
 }

@@ -3,6 +3,7 @@ package com.learners.orderservice.sm.action;
 import com.learners.model.OrderEvent;
 import com.learners.model.OrderStatus;
 import com.learners.model.events.AllocateOrderRequest;
+import com.learners.orderservice.config.AppConfigs;
 import com.learners.orderservice.config.JmsConfig;
 import com.learners.orderservice.entity.Order;
 import com.learners.orderservice.exception.OrderNotFoundException;
@@ -29,6 +30,7 @@ public class AllocateOrderAction implements Action<OrderStatus, OrderEvent> {
     private final JmsTemplate jmsTemplate;
     private final OrderRepository repository;
     private final OrderMapper mapper;
+    private final AppConfigs configs;
 
     @Override
     public void execute(StateContext<OrderStatus, OrderEvent> context) {
@@ -38,6 +40,6 @@ public class AllocateOrderAction implements Action<OrderStatus, OrderEvent> {
 
         AllocateOrderRequest request = AllocateOrderRequest.of(mapper.orderToDto(order));
         log.info("Sending allocate order request: {}", request);
-        jmsTemplate.convertAndSend(JmsConfig.ALLOCATE_ORDER_QUEUE, request);
+        jmsTemplate.convertAndSend(configs.getAllocateOrderQueue(), request);
     }
 }

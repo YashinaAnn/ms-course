@@ -1,9 +1,3 @@
-app.config:
-  default-page: 0
-  default-size: 50
-  pizza-service-host: "http://localhost:8080"
-  pizza-service-path: "/api/v1/pizza/"
-
 server.port: 8081
 
 spring:
@@ -29,3 +23,15 @@ spring:
     password: simetraehcapa
 
 logging.level.com.learners: debug
+
+app.config:
+  default-page: 0
+  default-size: 50
+  pizza-service-host: "http://localhost:8080"
+  pizza-service-path: "/api/v1/pizza/"
+  validate-order-queue: "validate-order"
+  validation-result-queue: "validation-result"
+  allocate-order-queue: "allocate-order"
+  allocation-result-queue: "allocation-result"
+  deallocate-order-queue: "deallocate-order"
+  allocation-error-queue: "allocation-error"

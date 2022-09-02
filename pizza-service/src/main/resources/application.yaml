@@ -5,6 +5,10 @@ app.config:
   quantity-to-deliver: 50
   inventory-service-host: "http://localhost:8082"
   inventory-path: "/api/v1/inventory/"
+  delivery-request-queue: "delivery-request"
+  new-inventory-queue: "inventory"
+  validate-order-queue: "validate-order"
+  validation-result-queue: "validation-result"
 
 spring:
   cache:

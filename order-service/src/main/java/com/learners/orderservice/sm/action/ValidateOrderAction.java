@@ -3,6 +3,7 @@ package com.learners.orderservice.sm.action;
 import com.learners.model.OrderEvent;
 import com.learners.model.OrderStatus;
 import com.learners.model.events.ValidateOrderRequest;
+import com.learners.orderservice.config.AppConfigs;
 import com.learners.orderservice.entity.Order;
 import com.learners.orderservice.exception.OrderNotFoundException;
 import com.learners.orderservice.mapper.OrderMapper;
@@ -17,7 +18,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
-import static com.learners.orderservice.config.JmsConfig.VALIDATE_ORDER_QUEUE;
 import static com.learners.orderservice.service.impl.OrderManagerImpl.ORDER_ID_HEADER;
 
 @Slf4j
@@ -29,6 +29,7 @@ public class ValidateOrderAction implements Action<OrderStatus, OrderEvent> {
     private final JmsTemplate jmsTemplate;
     private final OrderRepository repository;
     private final OrderMapper mapper;
+    private final AppConfigs configs;
 
     @Override
     public void execute(StateContext<OrderStatus, OrderEvent> context) {
@@ -38,6 +39,6 @@ public class ValidateOrderAction implements Action<OrderStatus, OrderEvent> {
         ValidateOrderRequest event = ValidateOrderRequest.of(mapper.orderToDto(order));
 
         log.info("Sending validation order event: {}", event);
-        jmsTemplate.convertAndSend(VALIDATE_ORDER_QUEUE, event);
+        jmsTemplate.convertAndSend(configs.getValidateOrderQueue(), event);
     }
 }

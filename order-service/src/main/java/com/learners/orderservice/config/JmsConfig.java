@@ -10,13 +10,6 @@ import org.springframework.jms.support.converter.MessageType;
 @Configuration
 public class JmsConfig {
 
-    public static final String VALIDATE_ORDER_QUEUE = "validate-order";
-    public static final String VALIDATION_RESULT_QUEUE = "validation-result";
-    public static final String ALLOCATE_ORDER_QUEUE = "allocate-order";
-    public static final String ALLOCATION_RESULT_QUEUE = "allocation-result";
-    public static final String DEALLOCATE_ORDER_QUEUE = "deallocate-order";
-    public static final String ALLOCATION_ERROR_QUEUE = "allocation-error";
-
     @Bean
     public MessageConverter messageConverter(ObjectMapper mapper) {
         MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();

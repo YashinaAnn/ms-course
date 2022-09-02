@@ -1,5 +1,6 @@
 package com.learners.inventoryservice.listener;
 
+import com.learners.inventoryservice.config.AppConfigs;
 import com.learners.inventoryservice.config.JmsConfig;
 import com.learners.inventoryservice.service.AllocationService;
 import com.learners.model.dto.order.OrderDto;
@@ -18,14 +19,15 @@ public class AllocationListener {
 
     private final AllocationService allocationService;
     private final JmsTemplate jmsTemplate;
+    private final AppConfigs configs;
 
-    @JmsListener(destination = JmsConfig.ALLOCATE_ORDER_QUEUE)
+    @JmsListener(destination = "${app.config.allocate-order-queue}")
     public void listen(AllocateOrderRequest request) {
         log.info("Allocation order request is arrived: {}", request);
 
         AllocationResult result = allocateOrder(request.getOrder());
         log.info("Allocation order result: {}", result);
-        jmsTemplate.convertAndSend(JmsConfig.ALLOCATION_RESULT_QUEUE, result);
+        jmsTemplate.convertAndSend(configs.getAllocationResultQueue(), result);
     }
 
     private AllocationResult allocateOrder(OrderDto order) {
@@ -38,7 +40,6 @@ public class AllocationListener {
             log.error("Exception occurred during order allocation: {}", e.getMessage());
             builder.exception(true);
         }
-        builder.order(order);
-        return builder.build();
+        return builder.order(order).build();
     }
 }

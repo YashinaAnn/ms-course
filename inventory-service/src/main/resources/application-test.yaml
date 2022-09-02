@@ -14,3 +14,10 @@ spring:
     url: jdbc:h2:mem:mydb
     username: sa
     password: sa
+
+app:
+  config:
+    inventory-queue: "inventory"
+    allocate-order-queue: "allocate-order"
+    allocation-result-queue: "allocation-result"
+    deallocate-order-queue: "deallocate-order"

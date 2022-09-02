@@ -3,6 +3,7 @@ package com.learners.orderservice.sm.action;
 import com.learners.model.OrderEvent;
 import com.learners.model.OrderStatus;
 import com.learners.model.events.DeallocateOrderRequest;
+import com.learners.orderservice.config.AppConfigs;
 import com.learners.orderservice.config.JmsConfig;
 import com.learners.orderservice.entity.Order;
 import com.learners.orderservice.exception.OrderNotFoundException;
@@ -27,6 +28,7 @@ public class DeallocateOrderAction implements Action<OrderStatus, OrderEvent> {
     private final OrderRepository repository;
     private final OrderMapper mapper;
     private final JmsTemplate jmsTemplate;
+    private final AppConfigs configs;
 
     @Override
     public void execute(StateContext<OrderStatus, OrderEvent> context) {
@@ -36,6 +38,6 @@ public class DeallocateOrderAction implements Action<OrderStatus, OrderEvent> {
 
         DeallocateOrderRequest request = DeallocateOrderRequest.of(mapper.orderToDto(order));
         log.info("Sending deallocate order request: {}", request);
-        jmsTemplate.convertAndSend(JmsConfig.DEALLOCATE_ORDER_QUEUE, request);
+        jmsTemplate.convertAndSend(configs.getDeallocateOrderQueue(), request);
     }
 }

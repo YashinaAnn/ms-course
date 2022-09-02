@@ -26,3 +26,10 @@ logging:
   level:
     com.learners: debug
 
+app:
+  config:
+    inventory-queue: "inventory"
+    allocate-order-queue: "allocate-order"
+    allocation-result-queue: "allocation-result"
+    deallocate-order-queue: "deallocate-order"
+

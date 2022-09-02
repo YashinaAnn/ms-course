@@ -1,4 +1,4 @@
-package com.learners.pizzaservice.service.order;
+package com.learners.pizzaservice.validator;
 
 import com.learners.model.dto.order.OrderDto;
 import com.learners.model.dto.order.OrderLineDto;

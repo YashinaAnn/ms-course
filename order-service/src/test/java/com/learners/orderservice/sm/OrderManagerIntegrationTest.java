@@ -123,7 +123,7 @@ public class OrderManagerIntegrationTest extends BaseTest {
             assertThat(orderLine.getQtyAllocated()).isEqualTo(0)
         );
 
-        AllocationErrorEvent event = (AllocationErrorEvent) jmsTemplate.receiveAndConvert(JmsConfig.ALLOCATION_ERROR_QUEUE);
+        AllocationErrorEvent event = (AllocationErrorEvent) jmsTemplate.receiveAndConvert(configs.getAllocationErrorQueue());
         assertThat(event).isNotNull();
         assertThat(event.getOrderId()).isEqualTo(order.getId());
     }
@@ -186,7 +186,7 @@ public class OrderManagerIntegrationTest extends BaseTest {
         orderManager.cancel(order.getId());
         awaitForStatus(order.getId(), OrderStatus.CANCELLED);
 
-        DeallocateOrderRequest request = (DeallocateOrderRequest) jmsTemplate.receiveAndConvert(JmsConfig.DEALLOCATE_ORDER_QUEUE);
+        DeallocateOrderRequest request = (DeallocateOrderRequest) jmsTemplate.receiveAndConvert(configs.getDeallocateOrderQueue());
         assertThat(request).isNotNull();
         assertThat(request.getOrder().getId()).isEqualTo(order.getId());
     }
@@ -204,7 +204,7 @@ public class OrderManagerIntegrationTest extends BaseTest {
         orderManager.cancel(order.getId());
         awaitForStatus(order.getId(), OrderStatus.CANCELLED);
 
-        DeallocateOrderRequest request = (DeallocateOrderRequest) jmsTemplate.receiveAndConvert(JmsConfig.DEALLOCATE_ORDER_QUEUE);
+        DeallocateOrderRequest request = (DeallocateOrderRequest) jmsTemplate.receiveAndConvert(configs.getDeallocateOrderQueue());
         assertThat(request).isNotNull();
         assertThat(request.getOrder().getId()).isEqualTo(order.getId());
     }

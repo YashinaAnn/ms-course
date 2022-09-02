@@ -3,7 +3,7 @@ package com.learners.orderservice.components;
 import com.learners.model.dto.order.OrderDto;
 import com.learners.model.events.ValidateOrderRequest;
 import com.learners.model.events.ValidationResult;
-import com.learners.orderservice.config.JmsConfig;
+import com.learners.orderservice.config.AppConfigs;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
@@ -21,8 +21,9 @@ import static com.learners.orderservice.BaseTest.VALIDATION_ERROR;
 public class ValidationResultTestListener {
 
     private final JmsTemplate jmsTemplate;
+    private final AppConfigs configs;
 
-    @JmsListener(destination = JmsConfig.VALIDATE_ORDER_QUEUE)
+    @JmsListener(destination = "${app.config.validate-order-queue}")
     public void listen(ValidateOrderRequest request) {
         log.info("Validation order request: {}", request);
         OrderDto order = request.getOrder();
@@ -32,7 +33,7 @@ public class ValidationResultTestListener {
             return;
         }
 
-        jmsTemplate.convertAndSend(JmsConfig.VALIDATION_RESULT_QUEUE,
+        jmsTemplate.convertAndSend(configs.getValidationResultQueue(),
                 ValidationResult.builder()
                         .orderId(request.getOrder().getId())
                         .isValid(isValidOrder(order))

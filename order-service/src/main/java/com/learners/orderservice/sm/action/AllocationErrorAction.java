@@ -3,6 +3,7 @@ package com.learners.orderservice.sm.action;
 import com.learners.model.OrderEvent;
 import com.learners.model.OrderStatus;
 import com.learners.model.events.AllocationErrorEvent;
+import com.learners.orderservice.config.AppConfigs;
 import com.learners.orderservice.config.JmsConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ import static com.learners.orderservice.service.impl.OrderManagerImpl.ORDER_ID_H
 public class AllocationErrorAction implements Action<OrderStatus, OrderEvent> {
 
     private final JmsTemplate jmsTemplate;
+    private final AppConfigs configs;
 
     @Override
     public void execute(StateContext<OrderStatus, OrderEvent> context) {
@@ -30,6 +32,6 @@ public class AllocationErrorAction implements Action<OrderStatus, OrderEvent> {
 
         AllocationErrorEvent event = AllocationErrorEvent.builder().orderId(orderId).build();
         log.info("Sending allocation error event: {}", event);
-        jmsTemplate.convertAndSend(JmsConfig.ALLOCATION_ERROR_QUEUE, event);
+        jmsTemplate.convertAndSend(configs.getAllocationErrorQueue(), event);
     }
 }

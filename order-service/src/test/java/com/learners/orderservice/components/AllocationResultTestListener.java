@@ -4,6 +4,7 @@ import com.learners.model.dto.order.OrderDto;
 import com.learners.model.dto.order.OrderLineDto;
 import com.learners.model.events.AllocateOrderRequest;
 import com.learners.model.events.AllocationResult;
+import com.learners.orderservice.config.AppConfigs;
 import com.learners.orderservice.config.JmsConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,8 +22,9 @@ import static com.learners.orderservice.BaseTest.*;
 public class AllocationResultTestListener {
 
     private final JmsTemplate jmsTemplate;
+    private final AppConfigs configs;
 
-    @JmsListener(destination = JmsConfig.ALLOCATE_ORDER_QUEUE)
+    @JmsListener(destination = "${app.config.allocate-order-queue}")
     public void listen(AllocateOrderRequest request) {
         OrderDto order = request.getOrder();
 
@@ -38,7 +40,7 @@ public class AllocationResultTestListener {
             }
         }
 
-        jmsTemplate.convertAndSend(JmsConfig.ALLOCATION_RESULT_QUEUE,
+        jmsTemplate.convertAndSend(configs.getAllocationResultQueue(),
                 AllocationResult.builder()
                         .order(order)
                         .pendingInventory(pendingInventory)

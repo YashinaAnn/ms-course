@@ -15,7 +15,7 @@ public class DeallocationListener {
 
     private final AllocationService allocationService;
 
-    @JmsListener(destination = JmsConfig.DEALLOCATE_ORDER_QUEUE)
+    @JmsListener(destination = "${app.config.deallocate-order-queue}")
     public void listen(DeallocateOrderRequest request) {
         log.info("Deallocate order request arrived: {}", request);
         allocationService.deallocateOrder(request.getOrder());
