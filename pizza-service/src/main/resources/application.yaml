@@ -1,15 +1,3 @@
-app.config:
-  default-page: 0
-  default-size: 50
-  minimal-quantity: 10
-  quantity-to-deliver: 50
-  inventory-service-host: "http://localhost:8082"
-  inventory-path: "/api/v1/inventory/"
-  delivery-request-queue: "delivery-request"
-  new-inventory-queue: "inventory"
-  validate-order-queue: "validate-order"
-  validation-result-queue: "validation-result"
-
 spring:
   application:
     name: "pizza-service"
@@ -36,10 +24,29 @@ spring:
   artemis:
     user: artemis
     password: simetraehcapa
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: "config-server"
+  config:
+    import: "optional:configserver:"
 
 logging.level.com.learners.pizzaservice: debug
 
 feign:
   circuitbreaker:
     enabled: true
+
+app.config:
+  default-page: 0
+  default-size: 50
+  minimal-quantity: 10
+  quantity-to-deliver: 50
+  inventory-service-host: "http://localhost:8082"
+  inventory-path: "/api/v1/inventory/"
+  delivery-request-queue: "delivery-request"
+  new-inventory-queue: "inventory"
+  validate-order-queue: "validate-order"
+  validation-result-queue: "validation-result"
 

@@ -23,6 +23,13 @@ spring:
   artemis:
     user: artemis
     password: simetraehcapa
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: "config-server"
+  config:
+    import: "optional:configserver:"
 
 logging:
   level:
