@@ -11,6 +11,8 @@ app.config:
   validation-result-queue: "validation-result"
 
 spring:
+  application:
+    name: "pizza-service"
   cache:
     jcache:
       config: "classpath:ehcache.xml"
