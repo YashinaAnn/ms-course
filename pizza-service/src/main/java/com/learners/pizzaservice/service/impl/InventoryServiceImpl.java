@@ -1,12 +1,10 @@
 package com.learners.pizzaservice.service.impl;
 
-import com.learners.pizzaservice.config.AppsConfigs;
+import com.learners.pizzaservice.client.InventoryClient;
 import com.learners.model.dto.inventory.InventoryDto;
 import com.learners.pizzaservice.service.InventoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
@@ -21,16 +19,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class InventoryServiceImpl implements InventoryService {
 
-    private final RestTemplate restTemplate;
-    private final AppsConfigs configs;
+    private final InventoryClient inventoryClient;
 
     @Override
     public Optional<Integer> getInventoryByPizzaId(long pizzaId) {
         try {
-            ResponseEntity<List<InventoryDto>> response = restTemplate.exchange(
-                     configs.getInventoryPath() + pizzaId,
-                    HttpMethod.GET, null,
-                    new ParameterizedTypeReference<List<InventoryDto>>(){});
+            log.debug("Calling inventory service for pizza id {}", pizzaId);
+            ResponseEntity<List<InventoryDto>> response = inventoryClient.getInventoryByPizzaId(pizzaId);
 
             Integer inventory = Objects.requireNonNull(response.getBody()).stream()
                     .map(InventoryDto::getInventoryOnHand)
@@ -39,7 +34,7 @@ public class InventoryServiceImpl implements InventoryService {
             return Optional.of(inventory);
 
         } catch (RestClientException e) {
-            log.error("Error while getting inventory for product with id {}. Inventory service error: {}", pizzaId, e.getMessage());
+            log.error("Error while getting inventory for product with id {}. Inventory service error: ", pizzaId, e);
         }
         return Optional.empty();
     }

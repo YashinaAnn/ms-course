@@ -12,11 +12,11 @@ public class PizzaServiceRouteConfig {
     public RouteLocator pizzaServiceRoute(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route(r -> r.path("/api/v1/pizza**")
-                        .uri("http://localhost:8080"))
+                        .uri("lb://pizza-service"))
                 .route(r -> r.path("/api/v1/inventory/*")
-                        .uri("http://localhost:8082"))
+                        .uri("lb://inventory-service"))
                 .route(r -> r.path("/api/v1/customers**")
-                        .uri("http://localhost:8081"))
+                        .uri("lb://order-service"))
                 .build();
     }
 }
