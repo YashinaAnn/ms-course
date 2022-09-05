@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: "inventory-failover-service"
+
+server:
+  port: 8087
+
+app:
+  config:
+    default-inventory: 999
