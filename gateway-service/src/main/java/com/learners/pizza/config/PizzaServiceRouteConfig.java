@@ -14,9 +14,14 @@ public class PizzaServiceRouteConfig {
                 .route(r -> r.path("/api/v1/pizza**")
                         .uri("lb://pizza-service"))
                 .route(r -> r.path("/api/v1/inventory/*")
+                        .filters(f -> f.circuitBreaker(cb -> cb
+                                .setName("inventoryServiceCB")
+                                .setFallbackUri("forward:/api/v1/inventory-failover")))
                         .uri("lb://inventory-service"))
                 .route(r -> r.path("/api/v1/customers**")
                         .uri("lb://order-service"))
+                .route(r -> r.path("/api/v1/inventory-failover")
+                        .uri("lb://inventory-failover-service"))
                 .build();
     }
 }

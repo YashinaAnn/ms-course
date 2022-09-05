@@ -39,3 +39,7 @@ spring:
 
 logging.level.com.learners.pizzaservice: debug
 
+feign:
+  circuitbreaker:
+    enabled: true
+
