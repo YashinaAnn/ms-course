@@ -30,6 +30,8 @@ spring:
         service-id: "config-server"
   config:
     import: "optional:configserver:"
+  zipkin:
+    baseUrl: "http://localhost:9411/"
 
 logging:
   level:

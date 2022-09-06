@@ -31,6 +31,8 @@ dependencies {
 	implementation 'org.springframework.statemachine:spring-statemachine-core:2.1.3.RELEASE'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	implementation 'org.springframework.cloud:spring-cloud-starter-config'
+	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+	implementation 'org.springframework.cloud:spring-cloud-sleuth-zipkin'
 	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
 	implementation 'org.awaitility:awaitility:4.0.3'
 	compileOnly 'org.projectlombok:lombok'
