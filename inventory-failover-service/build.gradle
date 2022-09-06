@@ -28,6 +28,8 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-config'
 	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
 	implementation 'org.springframework.cloud:spring-cloud-sleuth-zipkin'
+	// https://mvnrepository.com/artifact/net.logstash.logback/logstash-logback-encoder
+	implementation 'net.logstash.logback:logstash-logback-encoder:7.2'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
