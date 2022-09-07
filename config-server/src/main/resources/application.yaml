@@ -11,3 +11,11 @@ spring:
           uri: "https://github.com/YashinaAnn/ms-config-repo"
           clone-on-start: true
           default-label: master
+  security:
+    user:
+      name: "secretUsername"
+      password: "secretPassword"
+
+# should be env properties
+encrypt:
+  key: "superSecretKey"

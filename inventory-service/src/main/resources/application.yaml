@@ -28,6 +28,9 @@ spring:
       discovery:
         enabled: true
         service-id: "config-server"
+      username: "secretUsername"
+      password: "secretPassword"
+      fail-fast: true
   config:
     import: "optional:configserver:"
   zipkin:
