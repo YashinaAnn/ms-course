@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  jms:
+    image: vromero/activemq-artemis
+    ports:
+      - "8161:8161"
+      - "61616:61616"
+  zipkin:
+    image: "openzipkin/zipkin"
+    ports:
+      - "9411:9411"
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "local"
+      POSTGRES_PASSWORD: "root"
+      POSTGRES_DB: "pizza_db"
