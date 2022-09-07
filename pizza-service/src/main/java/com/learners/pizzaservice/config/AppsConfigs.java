@@ -16,6 +16,8 @@ public class AppsConfigs {
 
     private String inventoryServiceHost;
     private String inventoryPath;
+    private String inventoryUser;
+    private String inventoryPassword;
 
     private String deliveryRequestQueue;
     private String newInventoryQueue;

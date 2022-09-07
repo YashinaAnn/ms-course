@@ -35,6 +35,10 @@ spring:
     import: "optional:configserver:"
   zipkin:
     enabled: false
+  security:
+    user:
+      name: "name"
+      password: "password"
 
 logging:
   level:
