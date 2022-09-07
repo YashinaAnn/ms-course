@@ -43,6 +43,11 @@ feign:
   circuitbreaker:
     enabled: true
 
+eureka:
+  client:
+    service-url:
+      defaultZone: "http://netflix:eureka@localhost:8761/eureka"
+
 app.config:
   default-page: 0
   default-size: 50

@@ -6,3 +6,8 @@ spring:
     name: 'gateway-service'
   zipkin:
     enabled: false
+
+eureka:
+  client:
+    service-url:
+      defaultZone: "http://netflix:eureka@localhost:8761/eureka"

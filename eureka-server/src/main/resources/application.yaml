@@ -1,6 +1,10 @@
 spring:
   application:
     name: "eureka-server"
+  security:
+    user:
+      name: "netflix"
+      password: "eureka"
 
 server:
   port: 8761

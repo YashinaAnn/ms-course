@@ -19,3 +19,8 @@ spring:
 # should be env properties
 encrypt:
   key: "superSecretKey"
+
+eureka:
+  client:
+    service-url:
+      defaultZone: "http://netflix:eureka@localhost:8761/eureka"
